@@ -16,7 +16,7 @@ const MinigameDef minigame_def = {
     .gamename = "Sneks",
     .developername = "mr_J05H",
     .description = "Mother snek must be fed rats.",
-    .instructions = "Watch out for sneaky sharks."
+    .instructions = "Watch out for sneaky sharks. Move your joystick to move and press A to repel other snakes away from you."
 };
 
 

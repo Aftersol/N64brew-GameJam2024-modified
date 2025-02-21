@@ -1,4 +1,4 @@
 Sneks
 mr_J05H
 Mother snek must be fed rats.
-Watch out for sneaky sharks.
+Watch out for sneaky sharks. Move your joystick to move and press A to repel other snakes away from you.
