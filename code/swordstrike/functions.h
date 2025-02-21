@@ -30,7 +30,7 @@ void generateCompInputs(struct player* ai, struct player* target, struct floorPi
 void initAiSlide(struct player* ai, int dir);
 
 // PLAYER LOOP FUNCTIONS
-void pollPlayerInput(struct player *p,joypad_buttons_t *joypad_held);
+void pollPlayerInput(struct player *p, joypad_inputs_t *joypad_input, joypad_buttons_t *joypad_held);
 void pollAttackInput(struct player *p, joypad_buttons_t *joypad_held);
 void rdpq_draw_one_rectangle(int *x, int *y, int *w, int *h, color_t color);
 void rdpq_draw_one_floor_piece(int *x, int *y, int *w, int *h, color_t color);

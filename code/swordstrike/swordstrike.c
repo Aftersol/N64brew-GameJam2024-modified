@@ -20,7 +20,7 @@ const MinigameDef minigame_def = {
     .gamename = "Sword Strike",
     .developername = "Super Boognish",
     .description = "Free for all battle, but take one hit and you're out! Last player standing wins.",
-    .instructions = "DPAD for movement, A to jump, B to attack, Down + A to drop down, L to slide"
+    .instructions = "DPAD or joystick for movement, A to jump, B to attack, Down + A to drop down, L to slide"
 };
 
 // font globals
@@ -553,12 +553,13 @@ void minigame_loop(float deltatime){
             joypad_port_t port = core_get_playercontroller(i);
 
             joypad_buttons_t joypad_held = joypad_get_buttons_held(port);
+            joypad_inputs_t joypad_input = joypad_get_inputs(port);
             joypad_buttons_t joypad_pressed = joypad_get_buttons_pressed(port);
 
             if(players[i]->isAlive){
                 if(isHuman){
                     // POLL MOVEMENT INPUT
-                    pollPlayerInput(players[i], &joypad_held);
+                    pollPlayerInput(players[i], &joypad_input, &joypad_held);
                 
                     // POLL ATTACK INPUT
                     pollAttackInput(players[i], &joypad_pressed);

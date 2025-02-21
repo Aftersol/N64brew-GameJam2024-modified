@@ -425,37 +425,40 @@ void initAiSlide(struct player* ai, int dir){
 // PLAYER LOOP FUNCTIONS 
 // ############################################################################################################################
 // UPDATE PLAYER STATE BASED ON CONTROLLER INPUT
-void pollPlayerInput(struct player *p, joypad_buttons_t *joypad_held){
+void pollPlayerInput(struct player *p, joypad_inputs_t *joypad_input, joypad_buttons_t *joypad_held){
     if(p->onFloor || p->onTopOfEnemy){
         // drop down if on droppable floor
-        if(joypad_held->a && joypad_held->d_down){
+        if((joypad_held->a && joypad_held->d_down) || joypad_get_axis_held(p->id, JOYPAD_AXIS_STICK_Y) == -1){
             if(p->floorDroppable && !p->onTopOfEnemy){
                 p->verticalVelocity = DROPDOWN_STRENGTH;
                 p->onFloor = false;
                 p->dropdownCounter = 5; // ignore floor detection for 2 frames so you don't get pushed back out
             }       
-        // initiate slide    
-        } else if (joypad_held->l){
-            if(p->slideCooldown == 0){
-                initPlayerSlide(p);
-            }
+          
         // initiate jump
-        } else if (joypad_held->a) {
+        } else if (joypad_held->a || joypad_get_axis_held(p->id, JOYPAD_AXIS_STICK_Y) == 1) {
             p->verticalVelocity = -JUMP_STRENGTH;
             p->onFloor = false;
             p->onTopOfEnemy = false;
         }
+
+        // initiate slide  
+        if (joypad_held->l){
+            if(p->slideCooldown == 0){
+                initPlayerSlide(p);
+            }
+        }
     }
 
     // MOVE LEFT
-    if(joypad_held->d_left){
+    if(joypad_held->d_left || joypad_get_axis_held(p->id, JOYPAD_AXIS_STICK_X) == -1){
         if (!p->moveLeft){
             p->moveLeft = true;
             p->direction = 0;
         }
     }
     // MOVE RIGHT
-    if(joypad_held->d_right){
+    if(joypad_held->d_right || joypad_get_axis_held(p->id, JOYPAD_AXIS_STICK_X) == 1){
         if (!p->moveRight){
             p->moveRight = true;
             p->direction = 1;
