@@ -451,6 +451,7 @@ void minigame_fixedloop(float deltaTime)
     if (lastPlayer != -1) {
       isEnding = true;
       winner = lastPlayer;
+      core_set_winner(winner);
       wav64_play(&sfx_stop, 31);
     }
   } else {
@@ -459,7 +460,6 @@ void minigame_fixedloop(float deltaTime)
     if ((int)prevEndTime != (int)endTimer && (int)endTimer == WIN_SHOW_DELAY)
         wav64_play(&sfx_winner, 31);
     if (endTimer > WIN_DELAY) {
-      core_set_winner(winner);
       minigame_end();
     }
   }
@@ -522,7 +522,9 @@ void minigame_loop(float deltaTime)
     rdpq_text_printf(&textparms, FONT_TEXT, 0, 100, "Player %d wins!", winner+1);
   }
 
+  #if DEBUG
   rdpq_text_printf(NULL, FONT_TEXT, 20, 240-20, "FPS: %.2f", display_get_fps());
+  #endif
 
   rdpq_detach_show();
 }
