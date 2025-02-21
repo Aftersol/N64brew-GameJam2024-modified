@@ -174,7 +174,7 @@ void station_update(){
                 }
                 if(station.arm.rockets[b].enabled && t3d_vec3_distance(&crft_worldpos, &rocket_worldpos) < 8.0f){
                     if(!(crafts[c].arm.shield > 0.0f && crafts[c].arm.shield < 10.0f)){
-                        crafts[c].hp -= 100;
+                        crafts[c].hp = 0;
                         gamestatus.playerscores[station.currentplayer] += 8000;
                     }
                     station.arm.rockets[b].enabled = false;

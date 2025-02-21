@@ -278,7 +278,7 @@ void userinterface_draw(){
         rdpq_sync_tile(); // Hardware crashes otherwise
         rdpq_text_printf(&(rdpq_textparms_t){.align = ALIGN_CENTER, .width = 600}, 
         FONT_HEADING, w2 - 300, h2, 
-        "Paused. Press Start to continue...");
+        "Paused. Press Start to continue...\nPress Z to quit...");
         rdpq_sync_pipe(); // Hardware crashes otherwise
         rdpq_sync_tile(); // Hardware crashes otherwise
         }

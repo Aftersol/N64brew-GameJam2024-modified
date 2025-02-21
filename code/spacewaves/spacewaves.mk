@@ -42,6 +42,8 @@ ASSETS_LIST += \
     filesystem/spacewaves/pinkbats.xm64 \
 	filesystem/spacewaves/JupiteroidBoldItalic.font64 \
 	filesystem/spacewaves/Jupiteroid.font64 \
+	filesystem/spacewaves/JupiteroidBoldItalic_half.font64 \
+	filesystem/spacewaves/Jupiteroid_half.font64 \
 	filesystem/spacewaves/button_click1.wav64 \
     filesystem/spacewaves/button_click2.wav64 \
 	filesystem/spacewaves/button_click3.wav64 \
@@ -60,9 +62,13 @@ ASSETS_LIST += \
     filesystem/spacewaves/machinegun_new_03.ci4.sprite \
     filesystem/spacewaves/machinegun_new_04.ci4.sprite \
     filesystem/spacewaves/intro.m1v \
+	filesystem/spacewaves/expansionPak.rgba16.sprite \
 
 filesystem/spacewaves/JupiteroidBoldItalic.font64: MKFONT_FLAGS=--size 16
 filesystem/spacewaves/Jupiteroid.font64: MKFONT_FLAGS=--size 32
+
+filesystem/spacewaves/JupiteroidBoldItalic_half.font64: MKFONT_FLAGS=--size 12
+filesystem/spacewaves/Jupiteroid.font64_half: MKFONT_FLAGS=--size 24
 
 $(FILESYSTEM_DIR)/spacewaves/%.m1v: $(ASSETS_DIR)/spacewaves/%.m1v
 	@mkdir -p $(dir $@)
