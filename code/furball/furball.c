@@ -47,6 +47,9 @@ wav64_t sfx_countdown;
 wav64_t sfx_stop;
 wav64_t sfx_winner;
 
+wav64_t sfx_fire;
+wav64_t sfx_hit;
+
 xm64player_t music;
 
 float countDownTimer;
@@ -60,12 +63,13 @@ bool startSoundPlayed;
 bool endSoundPlayed;
 bool winSoundPlayed;
 
+bool isPaused;
+bool hasEnded;
+
 int winner;
 char winnerText[32]; 
 
 int skyColor[3];
-
-bool displayFPS;
 
 typedef struct {
 	T3DModel *model;
@@ -339,8 +343,10 @@ void minigame_init(){
 	endSoundPlayed = false;
 	winSoundPlayed = false;
 
-	displayFPS = DEBUG;
+	isPaused = false;
 
+	wav64_open(&sfx_fire, "rom:/furball/fire.wav64");
+	wav64_open(&sfx_hit, "rom:/furball/hit.wav64");
   	xm64player_open(&music, "rom:/furball/crystal.xm64");
   	xm64player_play(&music, 0);
 	xm64player_set_vol(&music, 0.5);
@@ -370,72 +376,94 @@ void minigame_fixedloop(float deltatime){
     		wav64_play(&sfx_start, 31);
 			startSoundPlayed = true;
 		}
-		gameTimer -= deltatime;
-
+		
 		joypad_inputs_t sticks[MAXPLAYERS]; 
 		joypad_buttons_t buttons[MAXPLAYERS];
 
+		bool proposedPause = false;
+
 		for(int i = 0; i < MAXPLAYERS; ++i){
+			
 			sticks[i] = joypad_get_inputs(core_get_playercontroller(i));
 			buttons[i] = joypad_get_buttons_pressed(core_get_playercontroller(i));
+			
+			//quit if start then z is pressed
+			
+			if(buttons[i].start) {
+				proposedPause = true;
+			}
+			if(buttons[i].z && isPaused) {
+				minigame_end();
+			}
+		}
+		
+		if (proposedPause) {
+			isPaused = (isPaused) ? false : true;
 		}
 
-		for(int i = 0; i < MAXPLAYERS; ++i){
-			//quit if start is pressed
-			if(buttons[i].start) minigame_end();
+		if (!isPaused) {
+			gameTimer -= deltatime;
+			for(int i = 0; i < MAXPLAYERS; ++i){
 
-			//movement
-			if(players[i].isHuman){
-				if(abs(sticks[i].stick_y) > 10){
-					players[i].mesh.modelPosition.v[1] += sticks[i].stick_y * 0.1f;
-					if(players[i].mesh.modelPosition.v[1] >= 100.0f){
-						players[i].mesh.modelPosition.v[1] = 100.0f;
-					}
-					else if(players[i].mesh.modelPosition.v[1] <= -100.0f){
-						players[i].mesh.modelPosition.v[1] = -100.0f;
+				//movement
+				if(players[i].isHuman){
+					if(abs(sticks[i].stick_y) > 10){
+						players[i].mesh.modelPosition.v[1] += sticks[i].stick_y * 0.1f;
+						if(players[i].mesh.modelPosition.v[1] >= 100.0f){
+							players[i].mesh.modelPosition.v[1] = 100.0f;
+						}
+						else if(players[i].mesh.modelPosition.v[1] <= -100.0f){
+							players[i].mesh.modelPosition.v[1] = -100.0f;
+						}
 					}
 				}
-			}
-			else{
-				if(!balls[i].go){
-					if (fabs(players[i].mesh.modelPosition.v[1] - targets[i].modelPosition.v[1]) < 10.0f){
-						if(aiShotTimer[i] > 0){
-							aiShotTimer[i] -= deltatime;
-						}
+				else{
+					if(!balls[i].go){
+						if (fabs(players[i].mesh.modelPosition.v[1] - targets[i].modelPosition.v[1]) < 10.0f){
+							if(aiShotTimer[i] > 0){
+								aiShotTimer[i] -= deltatime;
+							}
+							else{
+								if(gameTimer > 0.0f){
+									wav64_play(&sfx_fire, 28);
+								}
+								
+								t3d_anim_set_playing(&players[i].mesh.animation, true);
+								t3d_anim_set_time(&players[i].mesh.animation, 0.0f);
+	
+								balls[i].mesh.modelPosition = players[i].mesh.modelPosition;
+								balls[i].go = true;
+								balls[i].mesh.visible = true;
+								aiShotTimer[i] = aiShotTime;
+							}
+						}	
 						else{
-							t3d_anim_set_playing(&players[i].mesh.animation, true);
-							t3d_anim_set_time(&players[i].mesh.animation, 0.0f);
-
-							balls[i].mesh.modelPosition = players[i].mesh.modelPosition;
-							balls[i].go = true;
-							balls[i].mesh.visible = true;
-							aiShotTimer[i] = aiShotTime;
-						}
-					}	
-					else{
-						if(players[i].mesh.modelPosition.v[1] < targets[i].modelPosition.v[1]){
-							players[i].mesh.modelPosition.v[1] += 2.0f;
-						}
-						else if(players[i].mesh.modelPosition.v[1] > targets[i].modelPosition.v[1]){
-							players[i].mesh.modelPosition.v[1] -= 2.0f;
+							if(players[i].mesh.modelPosition.v[1] < targets[i].modelPosition.v[1]){
+								players[i].mesh.modelPosition.v[1] += 2.0f;
+							}
+							else if(players[i].mesh.modelPosition.v[1] > targets[i].modelPosition.v[1]){
+								players[i].mesh.modelPosition.v[1] -= 2.0f;
+							}
 						}
 					}
 				}
-			}
-
-			//ball go
-			if(balls[i].go) balls[i].mesh.modelPosition.v[2] -= 200*deltatime;
-			if(balls[i].mesh.modelPosition.v[2] < -200){
-				ball_reset(&(balls[i]));
-			}
-
-			//hit target
-			if(collide(&(balls[i].mesh), &targets[i], 20.0f)){
-				ball_reset(&(balls[i]));
-				targets[i].modelPosition.v[1] = (float)pow(-1,(int)(rand()%3)) * (float)rand()/((float)RAND_MAX/75);
-				++players[i].score;
+	
+				//ball go
+				if(balls[i].go) balls[i].mesh.modelPosition.v[2] -= 200*deltatime;
+				if(balls[i].mesh.modelPosition.v[2] < -200){
+					ball_reset(&(balls[i]));
+				}
+	
+				//hit target
+				if(collide(&(balls[i].mesh), &targets[i], 20.0f)){
+					wav64_play(&sfx_hit, 30);
+					ball_reset(&(balls[i]));
+					targets[i].modelPosition.v[1] = (float)pow(-1,(int)(rand()%3)) * (float)rand()/((float)RAND_MAX/75);
+					++players[i].score;
+				}
 			}
 		}
+		
 	}
 	else{
   		xm64player_stop(&music);
@@ -484,8 +512,12 @@ void minigame_loop(float deltatime){
 	}
 	for(int i = 0; i < MAXPLAYERS; ++i){
 		if(countDownTimer <= 0.0f){
-			if(players[i].isHuman){
+			if(players[i].isHuman && !isPaused){
 				if(buttons[i].a) {
+					if(gameTimer > 0.0f){
+						wav64_play(&sfx_fire, 28);
+					}
+					
 					t3d_anim_set_playing(&players[i].mesh.animation, true);
 					t3d_anim_set_time(&players[i].mesh.animation, 0.0f);
 
@@ -569,15 +601,15 @@ void minigame_loop(float deltatime){
 				.outline_color = RGBA32(0,0,0,0xFF)
 			});
 
+			#if DEBUG
 			char textFPS[8];
-			if(displayFPS){
 				//sprintf(textFPS,"%.0f FPS", 1 / deltatime);
 				sprintf(textFPS,"%.0f FPS", display_get_fps());
 				rdpq_text_printf(
 					NULL, 1, 260, 20,
 					textFPS
 				);
-			}
+			#endif
 
 			char textTimer[8];
 			sprintf(textTimer,"%.1f", fabs(gameTimer));
@@ -585,6 +617,17 @@ void minigame_loop(float deltatime){
 				NULL, 1, 150, 20,
 				textTimer
 			);
+		}
+
+		if (isPaused) {
+			rdpq_font_style(font, 0, &(rdpq_fontstyle_t){
+				.color = RGBA32(0xFF,0xFF,0xFF,0xFF),
+				.outline_color = RGBA32(0,0,0,0xFF)
+			});
+			rdpq_text_printf(NULL, 1, 145, 100, "PAUSED");
+
+			rdpq_text_printf(NULL, 1, 115, 120, "Press Z to quit");
+
 		}
 	}
 	else{
@@ -646,6 +689,9 @@ void minigame_cleanup(){
   	wav64_close(&sfx_countdown);
   	wav64_close(&sfx_stop);
   	wav64_close(&sfx_winner);
+
+	wav64_close(&sfx_hit);
+	wav64_close(&sfx_fire);
 
   	xm64player_stop(&music);
   	xm64player_close(&music);
