@@ -220,7 +220,7 @@ void renderOutro() {
         return;
     }
     int currentHighest = get_winner();
-    rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, 160, 120, "Player %d wins!", currentHighest+1);
+    rdpq_text_printf(&(rdpq_textparms_t){.align = ALIGN_CENTER, .width = 320}, FONT_BUILTIN_DEBUG_MONO, 0, 120, "Player %d wins!", currentHighest+1);
 
     
 }
