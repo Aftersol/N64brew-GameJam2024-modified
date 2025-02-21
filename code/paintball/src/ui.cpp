@@ -96,7 +96,12 @@ State UIRenderer::renderMenu(const State &state) {
                 case MENU_EXIT:
                     minigame_end();
             }
-        } else if (pressed.c_up || pressed.d_up || pressed.c_down || pressed.d_down) {
+        } else if (pressed.c_up ||
+            pressed.d_up ||
+            pressed.c_down ||
+            pressed.d_down ||
+            joypad_get_axis_pressed(core_get_playercontroller(PLAYER_1), JOYPAD_AXIS_STICK_Y) != 0
+        ) {
             selectedMenuItem == MENU_PLAY ? selectedMenuItem = MENU_EXIT : selectedMenuItem = MENU_PLAY;
             return state;
         }
