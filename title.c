@@ -194,6 +194,8 @@ void titlescreen_loop(float deltatime)
 
     if (((int)global_flash % 2) == 0)
         rdpq_text_print(&(rdpq_textparms_t){.width=320, .align=ALIGN_CENTER}, 1, 0, 240/2+64, "Press START");
+    
+    rdpq_text_print(&(rdpq_textparms_t){.width=320, .align=ALIGN_CENTER}, 1, 0, 240/2+96, "Modified by Aftersol, 2025");
 
     drawfade(global_fade);
 
