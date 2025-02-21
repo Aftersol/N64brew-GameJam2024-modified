@@ -1,0 +1,4 @@
+Snake3D
+HailToDodongo
+This is a porting of one of the Tiny3D examples, to show how to integrate Tiny3D in minigame.
+Press A to attack. Last snake slithering wins!

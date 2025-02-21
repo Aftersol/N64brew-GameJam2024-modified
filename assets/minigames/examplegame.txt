@@ -1,0 +1,4 @@
+Example Game
+Your Name
+This is an example game.
+Mash A to win.
