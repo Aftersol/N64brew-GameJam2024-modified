@@ -48,6 +48,7 @@ void minigame_init()
 	rdpq_text_register_font(FONT_CLARENDON, font_clarendon);
 
 	// Initiate game elements
+	winners = NULL;
 	notes_init();
 	hydra_init();
 	ui_init ();

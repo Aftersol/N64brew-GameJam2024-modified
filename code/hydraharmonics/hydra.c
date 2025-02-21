@@ -268,6 +268,9 @@ void hydra_move (void) {
 			}
 
 			if (pause) {
+				if (joypad.btn.z) {
+					stage = STAGE_RETURN_TO_MENU;
+				}
 				continue;
 			}
 

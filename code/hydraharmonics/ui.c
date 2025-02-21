@@ -543,7 +543,7 @@ void ui_signs_draw (void) {
 			FONT_CLARENDON,
 			0,
 			0,
-			"PAUSE"
+			"PAUSE\nPress Z to quit"
 		);
 	}
 }

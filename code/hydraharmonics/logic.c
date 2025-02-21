@@ -91,10 +91,13 @@ int16_t scores_get(uint8_t hydra) {
 
 void scores_clear (void) {
 	// Set the winners in the game jam core
-	for (uint8_t i=0; i<winners->length; i++) {
-		core_set_winner(winners->winners[i]);
+	if (winners) {
+		for (uint8_t i=0; i<winners->length; i++) {
+			core_set_winner(winners->winners[i]);
+		}
+		free(winners);
 	}
-	free(winners);
+
 }
 
 void note_hit_detection(void) {
