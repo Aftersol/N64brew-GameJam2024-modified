@@ -272,7 +272,7 @@ void loadsave_loop(float deltatime)
     // Render text
     if (savestate_checkcrashed())
     {
-        rdpq_text_print(&(rdpq_textparms_t){.width=320, .align=ALIGN_CENTER, .style_id=1}, 1, 0, 240/2-32, "A crash was detected.\nWould you like to restore the save?");
+        rdpq_text_print(&(rdpq_textparms_t){.width=320, .align=ALIGN_CENTER, .style_id=1}, 1, 0, 240/2-32, "A shutdown, reset, or crash was detected.\nWould you like to restore the save?");
         rdpq_text_print(&(rdpq_textparms_t){.style_id=((global_selection == 0) ? 2 : 1)}, 1, 320/2-64, 240/2+32, "Yes");
         rdpq_text_print(&(rdpq_textparms_t){.style_id=((global_selection == 1) ? 2 : 1)}, 1, 320/2+64, 240/2+32, "No");
     }
