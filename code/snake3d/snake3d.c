@@ -342,13 +342,54 @@ void player_fixedloop(player_data *player, float deltaTime, joypad_port_t port, 
   }
 }
 
+void quit_midgame(player_data* player) {
+  uint32_t alivePlayers = 0;
+  uint32_t aliveHumans = 0;
+  uint32_t playercount = core_get_playercount();
+
+  bool quitterAlive = player->isAlive;
+  bool allHumansDead = true;
+
+  for (int p = 0; p < MAXPLAYERS; p++) {
+    if (players[p].isAlive) {
+      alivePlayers++;
+      if (p < playercount) {
+        aliveHumans++;
+        allHumansDead = false;
+      }
+    }
+  }
+  
+  allHumansDead = aliveHumans == 0;
+  
+  if (allHumansDead || alivePlayers == 1) {
+    minigame_end();
+  }
+  else if (quitterAlive) {
+    if (alivePlayers == 2) {
+      for (int p = 0; p < MAXPLAYERS; p++) {
+        if (players[p].isAlive && &players[p] != player) {
+          core_set_winner(p);
+          break;
+        }
+      }
+    }
+
+
+    minigame_end();
+  }
+}
+
 void player_loop(player_data *player, float deltaTime, joypad_port_t port, bool is_human)
 {
   if (is_human && player_has_control(player))
   {
     joypad_buttons_t btn = joypad_get_buttons_pressed(port);
 
-    if (btn.start) minigame_end();
+    if (btn.start) {
+      quit_midgame(player);
+      return;
+    }
 
     // Player Attack
     if((btn.a || btn.b) && !player->animAttack.isPlaying) {
