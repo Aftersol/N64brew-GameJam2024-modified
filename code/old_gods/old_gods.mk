@@ -28,7 +28,6 @@ ASSETS_LIST += \
 	filesystem/old_gods/grave.t3dm \
 	filesystem/old_gods/torus.t3dm \
 	filesystem/old_gods/box.t3dm \
-	filesystem/old_gods/bottled_bubbles.xm64 \
 	filesystem/old_gods/Item2A.wav64 \
 	filesystem/old_gods/sandy_seaside.wav64 \
 	filesystem/old_gods/Ability_Learn.wav64 \
