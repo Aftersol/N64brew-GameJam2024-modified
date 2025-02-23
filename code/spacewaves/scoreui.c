@@ -188,7 +188,7 @@ void userinterface_draw(){
             rdpq_sync_pipe(); // Hardware crashes otherwise
             rdpq_sync_tile(); // Hardware crashes otherwise
             rdpq_text_printf(&(rdpq_textparms_t){.align = ALIGN_CENTER, .width = 600}, 
-            FONT_TEXT, w2 - 300, h - 20, 
+            FONT_TEXT, w2 - 300, h - 40, 
             "Target in sight. Type: %s, Distance: %.2f, Health: %.2f", 
             targnames[targinfo.type], targinfo.distance, targinfo.hp);
             rdpq_sync_pipe(); // Hardware crashes otherwise
@@ -267,7 +267,7 @@ void userinterface_draw(){
         rdpq_sync_pipe(); // Hardware crashes otherwise
         rdpq_sync_tile(); // Hardware crashes otherwise
         rdpq_text_printf(&(rdpq_textparms_t){.align = ALIGN_CENTER, .width = 600}, 
-        FONT_TEXT, w2 - 300, h - 40, 
+        FONT_TEXT, w2 - 300, h - 60, 
         "%02i:%02i", (int)gamestatus.statetime / 60, (int)gamestatus.statetime % 60);
         rdpq_sync_pipe(); // Hardware crashes otherwise
         rdpq_sync_tile(); // Hardware crashes otherwise
@@ -311,7 +311,7 @@ void userinterface_draw(){
         rdpq_sync_pipe(); // Hardware crashes otherwise
         rdpq_sync_tile(); // Hardware crashes otherwise
         rdpq_text_printf(&(rdpq_textparms_t){.align = ALIGN_CENTER, .width = 600}, 
-            FONT_TEXT, w2 - 300, h - 20, 
+            FONT_TEXT, w2 - 300, h - 40, 
             "Now playing: %s", music_credits[currentmusicindex]);
         }
     }
