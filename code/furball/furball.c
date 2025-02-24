@@ -217,7 +217,7 @@ void drawStaticMesh(staticMesh3d * mesh){
 
 void drawSkeletalMesh(skeletalMesh3d * mesh, float deltatime){
 	if(mesh->visible){
-		if(mesh->animation.isPlaying){
+		if(mesh->animation.isPlaying && !isPaused){
 			t3d_anim_update(&mesh->animation, deltatime);
 			t3d_skeleton_blend(&mesh->skeleton, &mesh->skeleton, &mesh->skeletonBlend, 0.15f);
 		}
