@@ -624,10 +624,11 @@ void minigame_loop(float deltatime){
 				.color = RGBA32(0xFF,0xFF,0xFF,0xFF),
 				.outline_color = RGBA32(0,0,0,0xFF)
 			});
-			rdpq_text_printf(NULL, 1, 145, 100, "PAUSED");
 
-			rdpq_text_printf(NULL, 1, 115, 120, "Press Z to quit");
-
+			rdpq_text_printf(&(rdpq_textparms_t) {
+				.align = ALIGN_CENTER,
+				.width = display_get_width()
+			}, 1, 0, 100, "PAUSED\nPress Z to quit");
 		}
 	}
 	else{
