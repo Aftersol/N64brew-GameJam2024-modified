@@ -314,9 +314,33 @@ void no_expansion_pak_screen()
             44, 44
         );
 
-        rdpq_text_printf(&(rdpq_textparms_t){.align = ALIGN_CENTER, .width = 320}, FONT_HEADING, 0, 48,"SPACEWAVES");
-        rdpq_text_printf(&(rdpq_textparms_t){.align = ALIGN_CENTER, .width = 320}, FONT_TEXT, 0, 72, "REMEMBER\nSTATION DEFENDERS");
-        rdpq_text_printf(&(rdpq_textparms_t){.align = ALIGN_CENTER, .width = 320}, FONT_TEXT, 0, 108, "Spacewaves requires an N64 Expansion Pak\nto be inserted into your N64 Control Deck to play.\nPress A to continue...");
+        rdpq_text_printf(
+          &(rdpq_textparms_t){.align = ALIGN_CENTER, .width = 320},
+          FONT_HEADING, 
+          0, 48,
+          "SPACEWAVES");
+
+        rdpq_text_printf(
+          &(rdpq_textparms_t){.align = ALIGN_CENTER, .width = 320},
+          FONT_TEXT,
+          0, 72,
+          "REMEMBER\nSTATION DEFENDERS");
+         
+        #ifdef SPACEWAVES_STANDALONE
+        rdpq_text_printf(
+          &(rdpq_textparms_t){.align = ALIGN_CENTER, .width = 320},
+          FONT_TEXT,
+          0, 108,
+          "Spacewaves requires an N64 Expansion Pak\nto be inserted into your N64 Control Deck to play.\n"
+        );
+        #else
+        rdpq_text_printf(
+          &(rdpq_textparms_t){.align = ALIGN_CENTER, .width = 320},
+          FONT_TEXT,
+          0, 108,
+          "Spacewaves requires an N64 Expansion Pak\nto be inserted into your N64 Control Deck to play.\nPress A to continue..."
+        );
+        #endif
 
         #ifndef SPACEWAVES_STANDALONE
         joypad_poll();
