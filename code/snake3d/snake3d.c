@@ -388,7 +388,6 @@ void player_loop(player_data *player, float deltaTime, joypad_port_t port, bool 
 
     if (btn.start) {
       quit_midgame(player);
-      return;
     }
 
     // Player Attack
