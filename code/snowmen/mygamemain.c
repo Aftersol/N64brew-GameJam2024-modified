@@ -71,7 +71,23 @@ wav64_t sfx_start;
 wav64_t sfx_countdown;
 wav64_t sfx_stop;
 wav64_t sfx_winner;
-xm64player_t music;
+
+/*
+
+    Jingle Bells Kevin MacLeod (incompetech.com)
+    Licensed under Creative Commons: By Attribution 3.0 License
+    http://creativecommons.org/licenses/by/3.0/
+
+    Music Link: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100187
+
+    Music inserted by Aftersol to make game music more cheery
+
+*/
+wav64_t jingle_bells;
+
+//xm64player_t music;
+
+#define JINGLE_BELLS_CHANNEL 28
 
 bool fullScreen;
 
@@ -884,7 +900,10 @@ void AIPlayerLoop(PlayerStruct* playerStruct, int seed, float deltaTime)
                             }
                             if (GameEnd)
                             {
-                                xm64player_stop(&music);
+                                
+                                mixer_ch_stop(JINGLE_BELLS_CHANNEL);
+                                //xm64player_stop(&music);
+                                
                                 wav64_play(&sfx_stop, 30);//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                             }
                             playerStruct->AIState = EPAIS_Idle;
@@ -1422,8 +1441,12 @@ T3DModel *treeModel;*/
     wav64_open(&sfx_countdown, "rom:/core/Countdown.wav64");
     wav64_open(&sfx_stop, "rom:/core/Stop.wav64");
     wav64_open(&sfx_winner, "rom:/core/Winner.wav64");
-    //xm64player_open(&music, "rom:/snake3d/bottled_bubbles.xm64");
-    xm64player_open(&music, "rom:/snowmen/christmas_day.xm64");
+
+    wav64_open(&jingle_bells, "rom:/snowmen/jingle_bells.wav64");
+    mixer_ch_set_limits(JINGLE_BELLS_CHANNEL, 0, 48000, 0);
+    wav64_set_loop(&jingle_bells, true);
+    
+    //xm64player_open(&music, "rom:/snowmen/christmas_day.xm64");
     //xm64player_play(&music, 0);
     //rdpq_sync_pipe(); // Hardware crashes otherwise
         //rdpq_sync_tile(); 
@@ -1639,7 +1662,17 @@ void draw_loop(bool showText, float deltaTime)
 
 
         if (TESTING) rdpq_text_printf(&(rdpq_textparms_t){ .style_id = 4 }, 2, 10, 10,"%.2f", display_get_fps());
-        rdpq_text_printf(&(rdpq_textparms_t){ .style_id = 4 }, 2, display_get_width() - 70.f, 10,"TIME: %.2f", GameTimer);
+        rdpq_text_printf(&(rdpq_textparms_t){ .style_id = 4 }, 2, display_get_width() - 70.f, 24,"TIME: %.2f", GameTimer);
+
+        // credits kevin macleod for music in game
+        if (StartTimer > 0.0f) {
+            rdpq_text_print(&(rdpq_textparms_t){
+                .width=320, 
+                .style_id = 4,
+                .align=ALIGN_CENTER
+            }, 2, 0, 240/2+48,
+            "Jingle Bells Kevin MacLeod (incompetech.com)\nLicensed under Creative Commons\nBy Attribution 3.0 License\nhttp://creativecommons.org/licenses/by/3.0/");
+        }
         //rdpq_text_printf(&(rdpq_textparms_t){ .style_id = 4 }, 2, 10, 30,"Camera front = %f %f %f\n", camera1.cameraFront.v[0], camera1.cameraFront.v[1], camera1.cameraFront.v[2]);
 
         if (numWinners != -1)
@@ -1650,7 +1683,15 @@ void draw_loop(bool showText, float deltaTime)
                 {
                     if (winners[i])
                     {
-                        rdpq_text_printf(NULL, 1, display_get_width()/2 - 70, display_get_height()/2 + 50,"Player %d Wins!\n", i+1);//&(rdpq_textparms_t){ .style_id = winner }
+                        rdpq_text_printf(
+                            &(rdpq_textparms_t) {
+                            .align = ALIGN_CENTER,
+                            .width = display_get_width()
+                            }, 
+                            1, 
+                            0, 
+                            display_get_height()/2 + 50,"Player %d Wins!\n", 
+                            i+1);//&(rdpq_textparms_t){ .style_id = winner }
                         break;
                     }
                 }
@@ -1658,7 +1699,15 @@ void draw_loop(bool showText, float deltaTime)
             }
             else if (numWinners == 4)
             {
-                rdpq_text_printf(NULL, 1, display_get_width()/2 - 20, display_get_height()/2 + 50,"Draw!\n");//&(rdpq_textparms_t){ .style_id = winner }
+                rdpq_text_printf(
+                    &(rdpq_textparms_t) {
+                    .align = ALIGN_CENTER,
+                    .width = display_get_width()
+                    }, 
+                    1, 
+                    0, 
+                    display_get_height()/2 + 50,
+                    "Draw!\n");//&(rdpq_textparms_t){ .style_id = winner }
             }
             else if (numWinners == 2)
             {
@@ -1676,7 +1725,18 @@ void draw_loop(bool showText, float deltaTime)
                         }
                     }
                 }
-                rdpq_text_printf(NULL, 1, display_get_width()/2 - 110, display_get_height()/2 + 50,"Players %d and %d Win!\n", winnerArray[0], winnerArray[1]);//&(rdpq_textparms_t){ .style_id = winner }
+                rdpq_text_printf(                            
+                    &(rdpq_textparms_t) {
+                    .align = ALIGN_CENTER,
+                    .width = display_get_width()
+                    }, 
+                    1, 
+                    0, 
+                    display_get_height()/2 + 50,
+                    "Players %d and %d Win!\n", 
+                    winnerArray[0], 
+                    winnerArray[1]
+                );//&(rdpq_textparms_t){ .style_id = winner }
             }
             else if (numWinners == 3)
             {
@@ -1695,7 +1755,19 @@ void draw_loop(bool showText, float deltaTime)
                         }
                     }
                 }
-                rdpq_text_printf(NULL, 1, display_get_width()/2 - 140, display_get_height()/2 + 50,"Players %d, %d, and %d Win!\n", winnerArray[0], winnerArray[1], winnerArray[2]);//&(rdpq_textparms_t){ .style_id = winner }
+                rdpq_text_printf(                            
+                    &(rdpq_textparms_t) {
+                    .align = ALIGN_CENTER,
+                    .width = display_get_width()
+                    }, 
+                    1, 
+                    0,
+                    display_get_height()/2 + 50,
+                    "Players %d, %d, and %d Win!\n", 
+                    winnerArray[0], 
+                    winnerArray[1], 
+                    winnerArray[2]
+                );//&(rdpq_textparms_t){ .style_id = winner }
             }
         }
 
@@ -1802,7 +1874,7 @@ void GameOver(float deltatime)
         //(T3DVec3){{ 0.f, 40.f, 25.f }};
         camera1.camTarget.v[2] = -195.f;
         camera1.camTarget.v[1] = -20.f;
-        if (WinnerDelay <= -10.f)
+        if (WinnerDelay <= -5.f)
         {
             minigame_end();
         }
@@ -1917,7 +1989,10 @@ void minigame_fixedloop(float deltatime)
         {
             debugf("Start!\n");
             wav64_play(&sfx_start, 31);
-            xm64player_play(&music, 0);
+
+            wav64_play(&jingle_bells, JINGLE_BELLS_CHANNEL);
+
+            //xm64player_play(&music, 0);
             PlayerControl = true;
         }
         else
@@ -1940,7 +2015,9 @@ void minigame_fixedloop(float deltatime)
             GameTimer = 0.f;
             debugf("TIME!\n");
             wav64_play(&sfx_stop, 30);//!!!!!!!!!!!!!!!!!!!!!!!!!!
-            xm64player_stop(&music);
+
+            mixer_ch_stop(JINGLE_BELLS_CHANNEL);
+            //xm64player_stop(&music);
             GameEnd = true;
 
             return;
@@ -2233,7 +2310,8 @@ void minigame_fixedloop(float deltatime)
                 SnowmanAttemptAdd(&snowmen[snowballs[i].holdingPlayerStruct->playerId], snowballs[i].holdingPlayerStruct, &snowballs[i], &GameEnd);
                 if (GameEnd)
                 {
-                    xm64player_stop(&music);
+                    mixer_ch_stop(JINGLE_BELLS_CHANNEL);
+                    //xm64player_stop(&music);
                     wav64_play(&sfx_stop, 30);//!!!!!!!!!!!!!!!!!!!!!!
                 }
             }
@@ -2266,7 +2344,8 @@ void minigame_fixedloop(float deltatime)
                     SnowmanAttemptAdd(&snowmen[spawners[i].decorations[j].holdingPlayerStruct->playerId], spawners[i].decorations[j].holdingPlayerStruct, &spawners[i].decorations[j], &GameEnd);
                     if (GameEnd)
                     {
-                        xm64player_stop(&music);
+                        mixer_ch_stop(JINGLE_BELLS_CHANNEL);
+                        //xm64player_stop(&music);
                         wav64_play(&sfx_stop, 30);//!!!!!!!!!!!!!!!!!!cannot call on secondary stereo channel 31
                     }
                 }
@@ -2423,8 +2502,12 @@ void minigame_cleanup()
     wav64_close(&sfx_countdown);
     wav64_close(&sfx_stop);
     wav64_close(&sfx_winner);
-    xm64player_stop(&music);
-    xm64player_close(&music);
+
+    mixer_ch_stop(JINGLE_BELLS_CHANNEL);
+    wav64_close(&jingle_bells);
+
+    //xm64player_stop(&music);
+    //xm64player_close(&music);
 
     //main file free mem
     free_uncached(treeMatFP); 

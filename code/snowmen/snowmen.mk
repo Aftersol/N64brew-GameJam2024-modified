@@ -10,7 +10,6 @@ ASSETS_LIST += \
 	filesystem/snowmen/sand12.ci4.sprite \
 	filesystem/snowmen/stone.ci4.sprite \
 	filesystem/snowmen/shadow.i8.sprite \
-	filesystem/snowmen/bottled_bubbles.xm64 \
 	filesystem/snowmen/m6x11plus.font64 \
 	filesystem/snowmen/p1.t3dm \
 	filesystem/snowmen/BootTex.ci4.sprite \
@@ -79,7 +78,9 @@ ASSETS_LIST += \
 	filesystem/snowmen/catherine_green.t3dm \
 	filesystem/snowmen/catherine_yellow.t3dm \
 	filesystem/snowmen/base_star.t3dm \
-	filesystem/snowmen/christmas_day.xm64 \
+	# filesystem/snowmen/christmas_day.xm64 \
+	
+	filesystem/snowmen/jingle_bells.wav64 \
 	filesystem/snowmen/Punch__007.wav64 \
 	filesystem/snowmen/swing.wav64 \
 	filesystem/snowmen/chainmail1.wav64 \
@@ -104,6 +105,10 @@ filesystem/snowmen/%.t3dm: assets/snowmen/%.glb
 	$(N64_BINDIR)/mkasset -c 2 -o $(dir $@) $@
 
 filesystem/snowmen/m6x11plus.font64: MKFONT_FLAGS += --outline 1 --size 36
+
+filesystem/snowmen/jingle_bells.wav64: AUDIOCONV_FLAGS += --wav-mono --wav-compress 3 --wav-resample 16000
+
+
 
 
 
