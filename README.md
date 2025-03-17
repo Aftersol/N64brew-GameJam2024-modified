@@ -1,6 +1,6 @@
 # N64brew Game Jam 2024
 
-<div></div>
+<div>
     <!-- It is meant to be a substitute GIF playback hence disablement of features -->
     <video loop autoplay disableremoteplayback disablepictureinpicture muted x-webkit-airplay="deny" controlslist="nofullscreen nodownload noremoteplayback">
     <source src="https://github.com/user-attachments/assets/0e6942cd-609b-4d5f-8050-0b049eb7b391">
