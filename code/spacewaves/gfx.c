@@ -13,13 +13,8 @@
 
 color_t uicolor;
 
-rdpq_font_t *font;
-rdpq_font_t *font2;
-
-wav64_t sfx_start;
-wav64_t sfx_countdown;
-wav64_t sfx_stop;
-wav64_t sfx_winner;
+rdpq_font_t *font_text;
+rdpq_font_t *font_header;
 
 sprite_t *sprites[SPRITE_COUNT];
 
@@ -118,19 +113,18 @@ const char *sound_path[SOUND_COUNT] = {
 
 int sound_cur_channels[SOUND_COUNT] = {0};
 
-void gfx_load(){
-    font = rdpq_font_load("rom://spacewaves/JupiteroidBoldItalic.font64");
-    font2 = rdpq_font_load("rom://spacewaves/Jupiteroid.font64");
-    rdpq_text_register_font(FONT_TEXT, font);
-    rdpq_text_register_font(FONT_HEADING, font2);
-    uicolor = RGBA32(0xBF, 0xFF, 0xBF, 0xFF);
-    rdpq_font_style(font, STYLE_DEFAULT, &(rdpq_fontstyle_t){.color = uicolor});
-    rdpq_font_style(font2, STYLE_DEFAULT, &(rdpq_fontstyle_t){.color = uicolor});
+void gfx_load() {
+    
+    font_text = rdpq_font_load("rom://spacewaves/JupiteroidBoldItalic.font64");
+    font_header = rdpq_font_load("rom://spacewaves/Jupiteroid.font64");
 
-    wav64_open(&sfx_start, "rom:/core/Start.wav64");
-    wav64_open(&sfx_countdown, "rom:/core/Countdown.wav64");
-    wav64_open(&sfx_stop, "rom:/core/Stop.wav64");
-    wav64_open(&sfx_winner, "rom:/core/Winner.wav64");
+    rdpq_text_register_font(FONT_TEXT, font_text);
+    rdpq_text_register_font(FONT_HEADING, font_header);
+
+    uicolor = RGBA32(0xBF, 0xFF, 0xBF, 0xFF);
+    
+    rdpq_font_style(font_text, STYLE_DEFAULT, &(rdpq_fontstyle_t){.color = uicolor});
+    rdpq_font_style(font_header, STYLE_DEFAULT, &(rdpq_fontstyle_t){.color = uicolor});
 
     for (uint32_t i = 0; i < SPRITE_COUNT; i++)
         sprites[i] = sprite_load(texture_path[i]);
@@ -184,13 +178,8 @@ T3DVec3 gfx_worldpos_from_polar(float pitch, float yaw, float distance){
 void gfx_close(){
     rdpq_text_unregister_font(FONT_TEXT);
     rdpq_text_unregister_font(FONT_HEADING);
-    if(font) rdpq_font_free(font);
-    if(font2) rdpq_font_free(font2);
-
-    wav64_close(&sfx_start);
-    wav64_close(&sfx_countdown);
-    wav64_close(&sfx_stop);
-    wav64_close(&sfx_winner);
+    if(font_text) rdpq_font_free(font_text);
+    if(font_header) rdpq_font_free(font_header);
 
     for (uint32_t i = 0; i < SPRITE_COUNT; i++)
         sprite_free(sprites[i]);

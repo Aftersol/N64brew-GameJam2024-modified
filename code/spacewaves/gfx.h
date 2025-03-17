@@ -29,12 +29,7 @@
 #define SFX_CHANNEL_BONUS 12
 #define SFX_CHANNEL_MUSIC   14
 
-extern rdpq_font_t *font;
-
-extern wav64_t sfx_start;
-extern wav64_t sfx_countdown;
-extern wav64_t sfx_stop;
-extern wav64_t sfx_winner;
+extern rdpq_font_t *font_text;
 
 extern sprite_t *sprites[SPRITE_COUNT];
 extern const char *texture_path[SPRITE_COUNT];
