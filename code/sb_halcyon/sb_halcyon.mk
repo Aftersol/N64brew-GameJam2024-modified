@@ -72,6 +72,7 @@ $(HALCYON_SOUND_DIR)/hexagone.wav64: AUDIOCONV_FLAGS += --wav-resample 16000 --w
 $(HALCYON_SOUND_DIR)/stones-falling.wav64: AUDIOCONV_FLAGS += --wav-mono --wav-compress 1
 $(HALCYON_SOUND_DIR)/strong_wind_blowing.wav64: AUDIOCONV_FLAGS += --wav-mono --wav-compress 1
 $(HALCYON_SOUND_DIR)/grunt-01.wav64: AUDIOCONV_FLAGS += --wav-mono --wav-compress 1
+$(HALCYON_SOUND_DIR)/sky_high.xm64: AUDIOCONV_FLAGS += --xm-8bit
 
 
 # font64 flags

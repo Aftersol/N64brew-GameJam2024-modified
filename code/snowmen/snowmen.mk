@@ -108,6 +108,8 @@ filesystem/snowmen/m6x11plus.font64: MKFONT_FLAGS += --outline 1 --size 36
 
 filesystem/snowmen/jingle_bells.wav64: AUDIOCONV_FLAGS += --wav-mono --wav-compress 3 --wav-resample 16000
 
+# filesystem/snowmen/christmas_day.xm64: AUDIOCONV_FLAGS += --xm-8bit
+
 
 
 

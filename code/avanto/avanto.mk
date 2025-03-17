@@ -31,6 +31,8 @@ ASSETS_LIST += \
 	filesystem/avanto/kiuas.sprite \
 	filesystem/avanto/unit-cube.t3dm
 
+filesystem/avanto/sj-polkka.xm64: AUDIOCONV_FLAGS += --xm-8bit
+
 AVANTO_AUDIOCONV_FLAGS += --wav-mono --wav-resample 22050 --wav-compress 3
 $(FILESYSTEM_DIR)/avanto/%.wav64: $(ASSETS_DIR)/avanto/%.mp3
 	@mkdir -p $(dir $@)

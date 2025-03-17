@@ -12,3 +12,5 @@ ASSETS_LIST += \
 	filesystem/undergroundgrind/m6x11plus.font64
 
 filesystem/undergroundgrind/m6x11plus.font64: MKFONT_FLAGS += --outline 1 --size 36
+
+filesystem/undergroundgrind/bottled_bubbles.xm64: AUDIOCONV_FLAGS += --xm-8bit

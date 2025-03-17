@@ -23,3 +23,5 @@ ASSETS_LIST += \
 	filesystem/polyquiz/drozerix_sexxy_bit.xm64 \
 	
 filesystem/polyquiz/abaddon.font64: MKFONT_FLAGS += --outline 3 --size 32
+
+filesystem/polyquiz/drozerix_sexxy_bit.xm64: AUDIOCONV_FLAGS += --xm-8bit

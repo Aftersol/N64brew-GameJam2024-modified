@@ -20,6 +20,7 @@ filesystem/core/dragon2.sprite: MKSPRITE_FLAGS += --format I4 -c 2
 filesystem/core/dragon3.sprite: MKSPRITE_FLAGS += --format I4 -c 2
 filesystem/core/dragon4.sprite: MKSPRITE_FLAGS += --format I4 -c 2
 filesystem/core/dragon.wav64: AUDIOCONV_FLAGS += --wav-resample 32000 --wav-mono --wav-compress 3
+filesystem/core/Menus.xm64: AUDIOCONV_FLAGS += --xm-8bit
 
 ###
 

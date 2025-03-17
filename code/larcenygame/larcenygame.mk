@@ -18,3 +18,5 @@ ASSETS_LIST += \
 	filesystem/larcenygame/floorTest.ci4.sprite \
 	filesystem/larcenygame/wallTest.ci4.sprite \
 	filesystem/larcenygame/drozerix-poppy_flower_girls.xm64
+
+filesystem/larcenygame/drozerix-poppy_flower_girls.xm64: AUDIOCONV_FLAGS += --xm-8bit

@@ -32,7 +32,12 @@ ASSETS_LIST += \
 	filesystem/landgrab/x.ia8.sprite
 
 filesystem/landgrab/anita_semi_square.font64: MKFONT_FLAGS += --outline 2 --size 16
+
 filesystem/landgrab/bbrick.font64: MKFONT_FLAGS += --outline 2 --size 16
+
 filesystem/landgrab/buzz.wav64: AUDIOCONV_FLAGS += --wav-mono
 filesystem/landgrab/click.wav64: AUDIOCONV_FLAGS += --wav-mono
 filesystem/landgrab/pop.wav64: AUDIOCONV_FLAGS += --wav-mono
+
+filesystem/landgrab/15yearsb.xm64: AUDIOCONV_FLAGS += --xm-8bit
+filesystem/landgrab/phekkis-4_weeks_of_hysteria.xm64: AUDIOCONV_FLAGS += --xm-8bit

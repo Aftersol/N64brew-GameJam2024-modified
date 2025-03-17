@@ -19,3 +19,5 @@ ASSETS_LIST += \
 
 filesystem/sb_holes/car.wav64: AUDIOCONV_FLAGS_FLAGS += --wav-compress 1 --wav-mono
 filesystem/sb_holes/hydrant.wav64: AUDIOCONV_FLAGS_FLAGS += --wav-compress 1 --wav-mono
+
+filesystem/sb_holes/TheMorningAfter.xm64: AUDIOCONV_FLAGS += --xm-8bit

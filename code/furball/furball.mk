@@ -13,3 +13,5 @@ ASSETS_LIST += \
 	filesystem/furball/hit.wav64
 filesystem/furball/fire.wav64: AUDIOCONV_FLAGS += --wav-mono --wav-resample 16000
 filesystem/furball/hit.wav64: AUDIOCONV_FLAGS += --wav-mono --wav-resample 16000
+
+filesystem/furball/crystal.xm64: AUDIOCONV_FLAGS += --xm-8bit
