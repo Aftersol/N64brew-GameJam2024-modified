@@ -1,6 +1,6 @@
 # N64brew Game Jam 2024
 
-https://github.com/user-attachments/assets/af16904d-9935-488d-870b-730a902b030b
+https://github.com/user-attachments/assets/2559d827-b6f1-43f4-8bcb-527161820e4c
 
 For 2024, N64brew decided to put together a minigame jam. This repository originally contained the template project, and now it contains the final ROM that was put together at the end of the jam. You can obtain the original final ROM from the [original releases page](https://github.com/n64brew/N64brew-GameJam2024/releases/) and the modified ROM [here](../../releases). You can also download the old template we provided [here](https://github.com/n64brew/N64brew-GameJam2024/releases/tag/template), in case you wish to make a minigame of your own.
 
