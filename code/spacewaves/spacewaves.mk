@@ -64,11 +64,30 @@ ASSETS_LIST += \
     filesystem/spacewaves/intro.m1v \
 	filesystem/spacewaves/expansionPak.rgba16.sprite \
 
-filesystem/spacewaves/JupiteroidBoldItalic.font64: MKFONT_FLAGS=--size 16
-filesystem/spacewaves/Jupiteroid.font64: MKFONT_FLAGS=--size 32
+# Generate both fonts at the same time form the same source.
+# Usage of pattern rules here is a trick:
+# https://stackoverflow.com/questions/2973445/gnu-makefile-rule-generating-a-few-targets-from-a-single-source-file
+$(FILESYSTEM_DIR)/spacewaves/JupiteroidBoldItalic%font64 $(FILESYSTEM_DIR)/spacewaves/JupiteroidBoldItalic_half%font64: $(ASSETS_DIR)/spacewaves/JupiteroidBoldItalic.ttf
+	@mkdir -p $(dir $@)
+	@echo "    [SPACEWAVES FONT] $@"
+	$(N64_MKFONT) --size 12 -o $(dir $@) "$<"
+	mv "$(dir $@)/JupiteroidBoldItalic.font64" $(FILESYSTEM_DIR)/spacewaves/JupiteroidBoldItalic_half.font64
+	@echo "    [SPACEWAVES FONT] $@"
+	$(N64_MKFONT) --size 16 -o $(dir $@) "$<"
+#mv "$(dir $@)/JupiteroidBoldItalic.font64" $(FILESYSTEM_DIR)/spacewaves/JupiteroidBoldItalic.font64
 
-filesystem/spacewaves/JupiteroidBoldItalic_half.font64: MKFONT_FLAGS=--size 12
-filesystem/spacewaves/Jupiteroid.font64_half: MKFONT_FLAGS=--size 24
+# Generate both fonts at the same time form the same source.
+# Usage of pattern rules here is a trick:
+# https://stackoverflow.com/questions/2973445/gnu-makefile-rule-generating-a-few-targets-from-a-single-source-file
+$(FILESYSTEM_DIR)/spacewaves/Jupiteroid_half%font64 $(FILESYSTEM_DIR)/spacewaves/Jupiteroid%font64: $(ASSETS_DIR)/spacewaves/Jupiteroid.ttf
+	@mkdir -p $(dir $@)
+	@echo "    [SPACEWAVES FONT] $@"
+	$(N64_MKFONT) --size 24 -o $(dir $@) "$<"
+	mv "$(dir $@)/Jupiteroid.font64" $(FILESYSTEM_DIR)/spacewaves/Jupiteroid_half.font64
+	@echo "    [SPACEWAVES FONT] $@"
+	$(N64_MKFONT) --size 32 -o $(dir $@) "$<"
+#mv "$(dir $@)/Jupiteroid.font64" $(FILESYSTEM_DIR)/spacewaves/Jupiteroid.font64
+
 
 $(FILESYSTEM_DIR)/spacewaves/%.m1v: $(ASSETS_DIR)/spacewaves/%.m1v
 	@mkdir -p $(dir $@)
