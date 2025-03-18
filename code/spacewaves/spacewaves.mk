@@ -68,7 +68,7 @@ filesystem/spacewaves/JupiteroidBoldItalic.font64: MKFONT_FLAGS=--size 16
 filesystem/spacewaves/Jupiteroid.font64: MKFONT_FLAGS=--size 32
 
 filesystem/spacewaves/JupiteroidBoldItalic_half.font64: MKFONT_FLAGS=--size 12
-filesystem/spacewaves/Jupiteroid.font64_half: MKFONT_FLAGS=--size 24
+filesystem/spacewaves/Jupiteroid_half.font64: MKFONT_FLAGS=--size 24
 
 $(FILESYSTEM_DIR)/spacewaves/%.m1v: $(ASSETS_DIR)/spacewaves/%.m1v
 	@mkdir -p $(dir $@)
