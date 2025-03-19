@@ -42,8 +42,6 @@ ASSETS_LIST += \
     filesystem/spacewaves/pinkbats.xm64 \
 	filesystem/spacewaves/JupiteroidBoldItalic.font64 \
 	filesystem/spacewaves/Jupiteroid.font64 \
-	filesystem/spacewaves/JupiteroidBoldItalic_half.font64 \
-	filesystem/spacewaves/Jupiteroid_half.font64 \
 	filesystem/spacewaves/button_click1.wav64 \
     filesystem/spacewaves/button_click2.wav64 \
 	filesystem/spacewaves/button_click3.wav64 \
