@@ -115,8 +115,14 @@ int sound_cur_channels[SOUND_COUNT] = {0};
 
 void gfx_load() {
     
-    font_text = rdpq_font_load("rom://spacewaves/JupiteroidBoldItalic.font64");
-    font_header = rdpq_font_load("rom://spacewaves/Jupiteroid.font64");
+    if (is_memory_expanded()) {
+        font_text = rdpq_font_load("rom://spacewaves/JupiteroidBoldItalic.font64");
+        font_header = rdpq_font_load("rom://spacewaves/Jupiteroid.font64");
+    } else {
+        // we can't change font size within a single file so use duplicate file
+        font_text = rdpq_font_load("rom://spacewaves/JupiteroidBoldItalic_half.font64");
+        font_header = rdpq_font_load("rom://spacewaves/Jupiteroid_half.font64");
+    }
 
     rdpq_text_register_font(FONT_TEXT, font_text);
     rdpq_text_register_font(FONT_HEADING, font_header);

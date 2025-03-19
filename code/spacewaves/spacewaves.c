@@ -34,13 +34,21 @@ const MinigameDef minigame_def = {
  */
 int main()
 {
+
+  /*if (!is_memory_expanded()) {
+
+      no_expansion_pak_screen();
+      minigame_end();
+      return -1;
+  }*/
+
   main_init();
   
-  if (!hasStarted) {
+  /*if (!hasStarted) {
     framebuffer = display_get();
     rdpq_attach(framebuffer, NULL);
     goto end;
-  }
+  }*/
 
   T3DMat4 modelMat; // matrix for our model, this is a "normal" float matrix
   t3d_mat4_identity(&modelMat);
@@ -219,7 +227,7 @@ int main()
     return 0;
 }
 
-void no_expansion_pak_screen()
+/*void no_expansion_pak_screen()
 {
     bool acknowledged = false;
 
@@ -379,4 +387,4 @@ void no_expansion_pak_screen()
     normal_warning_font = NULL;
 
     #endif
-}
+}*/

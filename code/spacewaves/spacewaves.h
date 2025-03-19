@@ -26,29 +26,25 @@
     void minigame_loop(float deltatime);
     void minigame_cleanup(){main_close();};
 
-    bool hasStarted;
+    /* bool hasStarted;
     
     #ifdef SPACEWAVES_STANDALONE
     void no_expansion_pak_screen() __attribute__ ((noreturn));
     #else
     void no_expansion_pak_screen();
-    #endif
+    #endif */
 
     void main_init(){
-        hasStarted = false;
 
-        if (!is_memory_expanded()) {
-
-            no_expansion_pak_screen();
-            minigame_end();
-            return;
-        }
-
-        hasStarted = true;
         intro();
 
-        display_init(
-            RESOLUTION_640x480, DEPTH_16_BPP, TRIPLE_BUFFERED, GAMMA_CORRECT_DITHER, FILTERS_RESAMPLE_ANTIALIAS_DEDITHER);
+        if (is_memory_expanded()) {
+            display_init(
+                RESOLUTION_640x480, DEPTH_16_BPP, TRIPLE_BUFFERED, GAMMA_CORRECT_DITHER, FILTERS_RESAMPLE_ANTIALIAS_DEDITHER);
+        } else {
+            display_init(
+                RESOLUTION_320x240, DEPTH_16_BPP, TRIPLE_BUFFERED, GAMMA_CORRECT_DITHER, FILTERS_RESAMPLE_ANTIALIAS_DEDITHER);
+        }
         
         #ifdef SPACEWAVES_STANDALONE
         // Initialize most subsystems
@@ -93,14 +89,16 @@
     }
 
     void main_close(){
-        if (!hasStarted) {
+        /*if (!hasStarted) {
             goto spacewaves_no_expansion_pack;
-        }
+        }*/
+
         if(xmplayeropen){
             xm64player_stop(&xmplayer);
             xm64player_close(&xmplayer);
             xmplayeropen = false;
         }
+
         unregister_VI_handler((void(*)())rand);
 
         world_close();
@@ -111,8 +109,16 @@
         effects_close();
         gfx_close();
         
-        t3d_destroy();
-        spacewaves_no_expansion_pack:
+        t3d_destroy();        
+        
+        for (int ply = 0; ply = 4; ply++) {
+            for (int attempt = 0; attempt = 10; attempt++) {
+                /* takes multiple attempts to stop rumble */
+                joypad_set_rumble_active(core_get_playercontroller(ply), false);
+            }
+        }
+
+        //spacewaves_no_expansion_pack:
         display_close();
     }
 

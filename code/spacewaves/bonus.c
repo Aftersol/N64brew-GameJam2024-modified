@@ -101,6 +101,8 @@ void bonus_apply(int bindex, PlyNum playernum, DefenseStation* station, int craf
 }
 
 void bonus_draw(){
+    bool isHighRes = is_memory_expanded();
+
     rdpq_set_mode_standard();
     rdpq_mode_blender(RDPQ_BLENDER_MULTIPLY);
     rdpq_mode_alphacompare(5);
@@ -112,9 +114,9 @@ void bonus_draw(){
         if(bonus->enabled){
             worldpos = gfx_worldpos_from_polar(bonus->polarpos.v[0], bonus->polarpos.v[1], bonus->polarpos.v[2]);
                 t3d_viewport_calc_viewspace_pos(&viewport, &viewpos, &worldpos);
-                xpos = viewpos.v[0]; ypos = viewpos.v[1] - 16;
+                xpos = viewpos.v[0]; ypos = viewpos.v[1] - ((isHighRes) ? 16 : 8);
                 if(gfx_pos_within_viewport(xpos, ypos) && t3d_vec3_dot(&station.forward, &worldpos) > 0.0f){
-                    rdpq_sprite_blit(sprites[spr_ui_bonus1 + bonus->type], xpos, ypos, &(rdpq_blitparms_t){.cx = 16, .scale_x = sin(bonus->time * 3)});
+                    rdpq_sprite_blit(sprites[spr_ui_bonus1 + bonus->type], xpos, ypos, &(rdpq_blitparms_t){.cx = 16, .scale_x = sin(bonus->time * 3.0) * (isHighRes) ? 1.0 : 0.5, .scale_y = (isHighRes) ? 1.0 : 0.5});
                 }
         }
     }
