@@ -26,16 +26,7 @@
     void minigame_loop(float deltatime);
     void minigame_cleanup(){main_close();};
 
-    /* bool hasStarted;
-    
-    #ifdef SPACEWAVES_STANDALONE
-    void no_expansion_pak_screen() __attribute__ ((noreturn));
-    #else
-    void no_expansion_pak_screen();
-    #endif */
-
     void main_init(){
-
         intro();
 
         if (is_memory_expanded()) {
@@ -89,10 +80,6 @@
     }
 
     void main_close(){
-        /*if (!hasStarted) {
-            goto spacewaves_no_expansion_pack;
-        }*/
-
         if(xmplayeropen){
             xm64player_stop(&xmplayer);
             xm64player_close(&xmplayer);
@@ -118,7 +105,6 @@
             }
         }
 
-        //spacewaves_no_expansion_pack:
         display_close();
     }
 
