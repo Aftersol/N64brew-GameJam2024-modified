@@ -60,7 +60,6 @@ ASSETS_LIST += \
     filesystem/spacewaves/machinegun_new_03.ci4.sprite \
     filesystem/spacewaves/machinegun_new_04.ci4.sprite \
     filesystem/spacewaves/intro.m1v \
-	filesystem/spacewaves/expansionPak.rgba16.sprite \
 
 # Generate both fonts at the same time form the same source.
 # Usage of pattern rules here is a trick:
