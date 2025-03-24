@@ -544,14 +544,14 @@ void minigame_fixedloop(float dt)
 
 void minigame_loop(float dt)
 {
-    joypad_buttons_t btn = joypad_get_buttons_pressed(JOYPAD_PORT_1);
+    joypad_buttons_t btn = joypad_get_buttons_pressed(core_get_playercontroller(PLAYER_1));
     if (btn.start) {
         debugf("Minigame ended by player (faces=%d)\n", num_faces);
 
         winner = get_winner();
 
         // No cheating player 1
-        if ((state == GS_PLAY || state == GS_FADEIN) && winner == 0) {
+        if ((state == GS_PLAY || state == GS_FADEIN) && winner == PLAYER_1) {
             winner = secondWinner;
         }
 
