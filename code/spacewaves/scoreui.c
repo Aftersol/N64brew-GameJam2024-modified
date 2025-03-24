@@ -129,11 +129,6 @@ void userinterface_draw(){
         rdpq_mode_combiner(RDPQ_COMBINER_TEX_FLAT);
         rdpq_mode_alphacompare(5);
 
-        rdpq_blitparms_t spriteParms = { 
-            .scale_x = (isHighRes) ? 1.0 : 0.5,
-            .scale_y = (isHighRes) ? 1.0 : 0.5
-        };
-
         /* Draw crosshair */
         rdpq_sprite_blit(sprites[spr_ui_crosshair], (w - sprites[spr_ui_crosshair]->width) / 2, (h - sprites[spr_ui_crosshair]->height) / 2, NULL);
         worldpos = gfx_worldpos_from_polar(station.pitch, station.yaw, 1000.0f);
@@ -154,6 +149,8 @@ void userinterface_draw(){
         /*
             Viewport Weapons GUI
         */
+        int viewportClampLimit = isHighRes ? 180 : 90;
+        int reticleTolerance = isHighRes ? 30 : 15;
 
         rdpq_set_prim_color(RGBA32(255,0,255,255));
         for(int b = 0; b < MAX_BONUSES; b++)
@@ -165,8 +162,8 @@ void userinterface_draw(){
                     rdpq_texture_rectangle_scaled(TILE0, xpos - Xb, ypos - Yb, xpos + Xb, ypos + Yb, 0, 0, 64, 64);
                 }
                 else {
-                    xpos = fclampr(xpos, 180, w - 180);
-                    ypos = fclampr(ypos, 180, h - 180);
+                    xpos = fclampr(xpos, viewportClampLimit, w - viewportClampLimit);
+                    ypos = fclampr(ypos, viewportClampLimit, h - viewportClampLimit);
                     rdpq_texture_rectangle_scaled(TILE0, xpos, ypos, xpos + 16, ypos + 16, 40, 4, 56, 20);
                 }
             }
@@ -178,7 +175,8 @@ void userinterface_draw(){
                 t3d_viewport_calc_viewspace_pos(&viewport, &viewpos, &worldpos);
                 xpos = viewpos.v[0]; ypos = viewpos.v[1];
                 if(gfx_pos_within_viewport(xpos, ypos) && t3d_vec3_dot(&station.forward, &worldpos) > 0.0f){
-                    if(gfx_pos_within_rect(xpos, ypos, w2 - 30, h2 - 30, w2 + 30, h2 + 30)){
+                    /* Reticle near spacecraft? */
+                    if(gfx_pos_within_rect(xpos, ypos, w2 - reticleTolerance, h2 - reticleTolerance, w2 + reticleTolerance, h2 + reticleTolerance)){
                         targinfo.enabled = true;
                         targinfo.hp = crafts[i].hp;
                         targinfo.type = TYPE_CRAFT;
@@ -187,8 +185,8 @@ void userinterface_draw(){
                     rdpq_texture_rectangle_scaled(TILE0, xpos - Xb, ypos - Yb, xpos + Xb, ypos + Yb, 0, 0, 64, 64);
                 }
                 else {
-                    xpos = fclampr(xpos, 180, w - 180);
-                    ypos = fclampr(ypos, 180, h - 180);
+                    xpos = fclampr(xpos, viewportClampLimit, w - viewportClampLimit);
+                    ypos = fclampr(ypos, viewportClampLimit, h - viewportClampLimit);
                     rdpq_texture_rectangle_scaled(TILE0, xpos, ypos, xpos + 16, ypos + 16, 40, 4, 56, 20);
                 }
             }
@@ -200,7 +198,9 @@ void userinterface_draw(){
                     t3d_viewport_calc_viewspace_pos(&viewport, &viewpos, &worldpos);
                     xpos = viewpos.v[0]; ypos = viewpos.v[1];
                     if(gfx_pos_within_viewport(xpos, ypos) && t3d_vec3_dot(&station.forward, &worldpos) > 0.0f){
-                        if(gfx_pos_within_rect(xpos, ypos, w2 - ((isHighRes) ? 30 : 15), h2 - ((isHighRes) ? 30 : 15), w2 + ((isHighRes) ? 30 : 15), h2 + ((isHighRes) ? 30 : 15))){
+
+                        /* Reticle near asteroid? */
+                        if(gfx_pos_within_rect(xpos, ypos, w2 - reticleTolerance, h2 - reticleTolerance, w2 + reticleTolerance, h2 + reticleTolerance)){
                             targinfo.enabled = true;
                             targinfo.hp = crafts[i].arm.asteroids[c].hp;
                             targinfo.type = TYPE_ASTEROID;
@@ -209,8 +209,8 @@ void userinterface_draw(){
                         rdpq_texture_rectangle_scaled(TILE0, xpos - Xb, ypos - Yb, xpos + Xb, ypos + Yb, 0, 0, 64, 64);
                     }
                     else {
-                        xpos = fclampr(xpos, 180, w - 180);
-                        ypos = fclampr(ypos, 180, h - 180);
+                        xpos = fclampr(xpos, viewportClampLimit, w - viewportClampLimit);
+                        ypos = fclampr(ypos, viewportClampLimit, h - viewportClampLimit);
                         rdpq_texture_rectangle_scaled(TILE0, xpos, ypos, xpos + ((isHighRes) ? 16 : 8), ypos + ((isHighRes) ? 16 : 8), 40, 4, 56, 20);
                     }
                 }
@@ -220,7 +220,9 @@ void userinterface_draw(){
                     t3d_viewport_calc_viewspace_pos(&viewport, &viewpos, &worldpos);
                     xpos = viewpos.v[0]; ypos = viewpos.v[1];
                     if(gfx_pos_within_viewport(xpos, ypos) && t3d_vec3_dot(&station.forward, &worldpos) > 0.0f){
-                        if(gfx_pos_within_rect(xpos, ypos, w2 - ((isHighRes) ? 30 : 15), h2 - ((isHighRes) ? 30 : 15), w2 + ((isHighRes) ? 30 : 15), h2 + ((isHighRes) ? 30 : 15))){
+                        
+                        /* Reticle near rockets? */
+                        if(gfx_pos_within_rect(xpos, ypos, w2 - reticleTolerance, h2 - reticleTolerance, w2 + reticleTolerance, h2 + reticleTolerance)){
                             targinfo.enabled = true;
                             targinfo.hp = crafts[i].arm.rockets[c].hp;
                             targinfo.type = TYPE_ROCKET;
@@ -229,8 +231,8 @@ void userinterface_draw(){
                         rdpq_texture_rectangle_scaled(TILE0, xpos - Xb, ypos - Yb, xpos + Xb, ypos + Yb, 0, 0, 64, 64);
                     }
                     else {
-                        xpos = fclampr(xpos, 180, w - 180);
-                        ypos = fclampr(ypos, 180, h - 180);
+                        xpos = fclampr(xpos, viewportClampLimit, w - viewportClampLimit);
+                        ypos = fclampr(ypos, viewportClampLimit, h - viewportClampLimit);
                         rdpq_texture_rectangle_scaled(TILE0, xpos, ypos, xpos + ((isHighRes) ? 16 : 8), ypos + ((isHighRes) ? 16 : 8), 40, 4, 56, 20);
                     }
                 }
