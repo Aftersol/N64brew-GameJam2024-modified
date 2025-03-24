@@ -211,7 +211,7 @@ void userinterface_draw(){
                     else {
                         xpos = fclampr(xpos, viewportClampLimit, w - viewportClampLimit);
                         ypos = fclampr(ypos, viewportClampLimit, h - viewportClampLimit);
-                        rdpq_texture_rectangle_scaled(TILE0, xpos, ypos, xpos + ((isHighRes) ? 16 : 8), ypos + ((isHighRes) ? 16 : 8), 40, 4, 56, 20);
+                        rdpq_texture_rectangle_scaled(TILE0, xpos, ypos, xpos + 16, ypos + 16, 40, 4, 56, 20);
                     }
                 }
 
@@ -233,7 +233,7 @@ void userinterface_draw(){
                     else {
                         xpos = fclampr(xpos, viewportClampLimit, w - viewportClampLimit);
                         ypos = fclampr(ypos, viewportClampLimit, h - viewportClampLimit);
-                        rdpq_texture_rectangle_scaled(TILE0, xpos, ypos, xpos + ((isHighRes) ? 16 : 8), ypos + ((isHighRes) ? 16 : 8), 40, 4, 56, 20);
+                        rdpq_texture_rectangle_scaled(TILE0, xpos, ypos, xpos + 16, ypos + 16, 40, 4, 56, 20);
                     }
                 }
             }
