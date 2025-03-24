@@ -33,7 +33,22 @@ typedef struct targinfo_s{
 } targinfo_t;
 targinfo_t targinfo;
 
+inline int userinterface_getscoreoffset(int p) {
+    return (isHighRes) ? (h2 + 40 * p + 40) : (h2 + 20 * p + 20);
+}
 
+void userinterface_drawscores() {
+    int playercount = core_get_playercount();
+    for(int i = 0; i < MAXPLAYERS; i++){
+        rdpq_sync_pipe(); // Hardware crashes otherwise
+    rdpq_sync_tile(); // Hardware crashes otherwise
+        rdpq_text_printf(&(rdpq_textparms_t){.align = ALIGN_CENTER, .width = 600}, 
+        FONT_HEADING, w2 - 300, userinterface_getscoreoffset(i), 
+        "%s %i score is %06i PTS", i < playercount ? "Player" : "BOT", i + 1, gamestatus.playerscores[i]);
+        rdpq_sync_pipe(); // Hardware crashes otherwise
+    rdpq_sync_tile(); // Hardware crashes otherwise
+    }
+}
 
 void userinterface_playerdraw(PlyNum player, float hppercent, int points, int rockets, float powerup, float shield){   
     int playercount = core_get_playercount();
@@ -259,6 +274,8 @@ void userinterface_draw(){
             Radar GUI
         */
 
+        float radarScale = (isHighRes) ? 1.0f : 0.5f;
+
         rdpq_set_mode_standard();
         rdpq_mode_combiner(RDPQ_COMBINER_FLAT);
         rdpq_mode_blender(RDPQ_BLENDER_MULTIPLY);
@@ -284,21 +301,21 @@ void userinterface_draw(){
 
            
             rdpq_set_prim_color(gfx_get_playercolor(crafts[i].currentplayer));
-            float xp = (500 + t3d_lerp(0,128, fwrap(crafts[i].yawoff + FM_PI, 0, FM_PI * 2) / (float)(FM_PI * 2))) * ((isHighRes) ? 1.0 : 0.5);
-            float yp = (340 + t3d_lerp(0,128, fwrap(crafts[i].pitchoff + FM_PI, 0, FM_PI * 2) / (float)(FM_PI * 2))) * ((isHighRes) ? 1.0 : 0.5);
+            float xp = (500 + t3d_lerp(0,128, fwrap(crafts[i].yawoff + FM_PI, 0, FM_PI * 2) / (float)(FM_PI * 2))) * radarScale;
+            float yp = (340 + t3d_lerp(0,128, fwrap(crafts[i].pitchoff + FM_PI, 0, FM_PI * 2) / (float)(FM_PI * 2))) * radarScale;
             rdpq_fill_rectangle(xp,yp,xp+2,yp+2);
 
             /* Draw location of projectiles */
             rdpq_set_prim_color(RGBA32(80,80,80,255));
                 for(int j = 0; j < MAX_PROJECTILES; j++){
                     if(crafts[i].arm.asteroids[j].enabled){
-                        float xp = (500 + t3d_lerp(0,128, fwrap(crafts[i].arm.asteroids[j].polarpos.y + FM_PI, 0, FM_PI * 2) / (float)(FM_PI * 2))) * ((isHighRes) ? 1.0 : 0.5);
-                        float yp = (340 + t3d_lerp(0,128, fwrap(crafts[i].arm.asteroids[j].polarpos.x + FM_PI, 0, FM_PI * 2) / (float)(FM_PI * 2))) * ((isHighRes) ? 1.0 : 0.5);
+                        float xp = (500 + t3d_lerp(0,128, fwrap(crafts[i].arm.asteroids[j].polarpos.y + FM_PI, 0, FM_PI * 2) / (float)(FM_PI * 2))) * radarScale;
+                        float yp = (340 + t3d_lerp(0,128, fwrap(crafts[i].arm.asteroids[j].polarpos.x + FM_PI, 0, FM_PI * 2) / (float)(FM_PI * 2))) * radarScale;
                         rdpq_fill_rectangle(xp,yp,xp+2,yp+2);
                     }
                     if(crafts[i].arm.rockets[j].enabled){
-                        float xp = (500 + t3d_lerp(0,128, fwrap(crafts[i].arm.rockets[j].polarpos.y + FM_PI, 0, FM_PI * 2) / (float)(FM_PI * 2))) * ((isHighRes) ? 1.0 : 0.5);
-                        float yp = (340 + t3d_lerp(0,128, fwrap(crafts[i].arm.rockets[j].polarpos.x + FM_PI, 0, FM_PI * 2) / (float)(FM_PI * 2))) * ((isHighRes) ? 1.0 : 0.5);
+                        float xp = (500 + t3d_lerp(0,128, fwrap(crafts[i].arm.rockets[j].polarpos.y + FM_PI, 0, FM_PI * 2) / (float)(FM_PI * 2))) * radarScale;
+                        float yp = (340 + t3d_lerp(0,128, fwrap(crafts[i].arm.rockets[j].polarpos.x + FM_PI, 0, FM_PI * 2) / (float)(FM_PI * 2))) * radarScale;
                         rdpq_fill_rectangle(xp,yp,xp+2,yp+2);
                     }
                 }
@@ -309,8 +326,8 @@ void userinterface_draw(){
         rdpq_set_prim_color(RGBA32(255,0,255,255));
         for(int j = 0; j < MAX_BONUSES; j++){
             if(bonuses[j].enabled){
-                float xp = (500 + t3d_lerp(0,128, fwrap(bonuses[j].polarpos.y + FM_PI, 0, FM_PI * 2) / (float)(FM_PI * 2))) * ((isHighRes) ? 1.0 : 0.5);
-                float yp = (340 + t3d_lerp(0,128, fwrap(bonuses[j].polarpos.x + FM_PI, 0, FM_PI * 2) / (float)(FM_PI * 2))) * ((isHighRes) ? 1.0 : 0.5);
+                float xp = (500 + t3d_lerp(0,128, fwrap(bonuses[j].polarpos.y + FM_PI, 0, FM_PI * 2) / (float)(FM_PI * 2))) * radarScale;
+                float yp = (340 + t3d_lerp(0,128, fwrap(bonuses[j].polarpos.x + FM_PI, 0, FM_PI * 2) / (float)(FM_PI * 2))) * radarScale;
                 rdpq_fill_rectangle(xp,yp,xp+2,yp+2);
             }
         }
@@ -318,8 +335,8 @@ void userinterface_draw(){
         {
              /* Draw other players location */
             rdpq_set_prim_color(gfx_get_playercolor(station.currentplayer));
-            float xp = (500 + t3d_lerp(0,128, fwrap(station.yawcam + FM_PI, 0, FM_PI * 2) / (float)(FM_PI * 2))) * ((isHighRes) ? 1.0 : 0.5);
-            float yp = (340 + t3d_lerp(0,128, fwrap(station.pitchcam + FM_PI, 0, FM_PI * 2) / (float)(FM_PI * 2))) * ((isHighRes) ? 1.0 : 0.5);
+            float xp = (500 + t3d_lerp(0,128, fwrap(station.yawcam + FM_PI, 0, FM_PI * 2) / (float)(FM_PI * 2))) * radarScale;
+            float yp = (340 + t3d_lerp(0,128, fwrap(station.pitchcam + FM_PI, 0, FM_PI * 2) / (float)(FM_PI * 2))) * radarScale;
             rdpq_fill_rectangle(xp,yp,xp+2,yp+2);
         }
 
@@ -330,6 +347,7 @@ void userinterface_draw(){
     }
 
     // text stuff
+    int announcement_header_text_offset = isHighRes ? (h2 - 100) : (h2 - 50);
     if(gamestatus.state != GAMESTATE_PLAY){
         rdpq_set_mode_standard();
         rdpq_mode_combiner(RDPQ_COMBINER_FLAT);
@@ -341,7 +359,7 @@ void userinterface_draw(){
             rdpq_set_prim_color(RGBA32(0,0,0, t3d_lerp(128,255, fclampr(1 - (gamestatus.statetime * 0.2), 0,1))));
         rdpq_texture_rectangle(TILE0,0,0,w, h, 0,0);
     }
-    else    {
+    else {
         rdpq_sync_pipe(); // Hardware crashes otherwise
         rdpq_sync_tile(); // Hardware crashes otherwise
 
@@ -368,18 +386,10 @@ void userinterface_draw(){
         rdpq_sync_pipe(); // Hardware crashes otherwise
         rdpq_sync_tile(); // Hardware crashes otherwise
         rdpq_text_printf(&(rdpq_textparms_t){.align = ALIGN_CENTER, .width = 600}, 
-        FONT_HEADING, w2 - 300, (isHighRes) ? (h2 - 100) : (h2 - 50), 
+        FONT_HEADING, w2 - 300, announcement_header_text_offset, 
         "Player %i is now in Defense.\nPress Start to get ready!", station.currentplayer + 1);
         }
-        for(int i = 0; i < MAXPLAYERS; i++){
-            rdpq_sync_pipe(); // Hardware crashes otherwise
-            rdpq_sync_tile(); // Hardware crashes otherwise
-            rdpq_text_printf(&(rdpq_textparms_t){.align = ALIGN_CENTER, .width = 600}, 
-            FONT_HEADING, w2 - 300, (isHighRes) ? (h2 + 40 * i + 40) : (h2 + 20 * i + 20), 
-            "%s %i score is %06i PTS", i < playercount? "Player" : "BOT", i + 1, gamestatus.playerscores[i]);
-            rdpq_sync_pipe(); // Hardware crashes otherwise
-        rdpq_sync_tile(); // Hardware crashes otherwise
-        }
+        userinterface_drawscores();
     }
     if(gamestatus.state == GAMESTATE_COUNTDOWN){
         {
@@ -399,40 +409,24 @@ void userinterface_draw(){
         rdpq_sync_pipe(); // Hardware crashes otherwise
         rdpq_sync_tile(); // Hardware crashes otherwise
         rdpq_text_printf(&(rdpq_textparms_t){.align = ALIGN_CENTER, .width = 600}, 
-        FONT_HEADING, w2 - 300, (isHighRes) ? (h2 - 100) : (h2 - 50), 
+        FONT_HEADING, w2 - 300, announcement_header_text_offset, 
         "Match has ended!\nMoving to the next galaxy in %.2f...", gamestatus.statetime);
         rdpq_sync_pipe(); // Hardware crashes otherwise
         rdpq_sync_tile(); // Hardware crashes otherwise
-        for(int i = 0; i < MAXPLAYERS; i++){
-            rdpq_sync_pipe(); // Hardware crashes otherwise
-        rdpq_sync_tile(); // Hardware crashes otherwise
-            rdpq_text_printf(&(rdpq_textparms_t){.align = ALIGN_CENTER, .width = 600}, 
-            FONT_HEADING, w2 - 300, (isHighRes) ? (h2 + 40 * i + 40) : (h2 + 20 * i + 20), 
-            "%s %i score is %06i PTS", i < playercount? "Player" : "BOT", i + 1, gamestatus.playerscores[i]);
-            rdpq_sync_pipe(); // Hardware crashes otherwise
-        rdpq_sync_tile(); // Hardware crashes otherwise
-        }
+        userinterface_drawscores();
     }
     if(gamestatus.state == GAMESTATE_FINISHED){
-        for(int i = 0; i < MAXPLAYERS; i++){
-            rdpq_sync_pipe(); // Hardware crashes otherwise
-        rdpq_sync_tile(); // Hardware crashes otherwise
-            rdpq_text_printf(&(rdpq_textparms_t){.align = ALIGN_CENTER, .width = 600}, 
-            FONT_HEADING, w2 - 300, (isHighRes) ? (h2 + 40 * i + 40) : (h2 + 20 * i + 20), 
-            "%s %i score is %06i PTS", i < playercount? "Player" : "BOT", i + 1, gamestatus.playerscores[i]);
-            rdpq_sync_pipe(); // Hardware crashes otherwise
-        rdpq_sync_tile(); // Hardware crashes otherwise
-        }
+        userinterface_drawscores();
 
         rdpq_sync_pipe(); // Hardware crashes otherwise
         rdpq_sync_tile(); // Hardware crashes otherwise
         if(gamestatus.winner == -1)
             rdpq_text_printf(&(rdpq_textparms_t){.align = ALIGN_CENTER, .width = 600}, 
-            FONT_HEADING, w2 - 300, (isHighRes) ? (h2 - 100) : (h2 - 50), 
+            FONT_HEADING, w2 - 300, announcement_header_text_offset, 
             "Game over!\nIts a Tie!");
         else 
             rdpq_text_printf(&(rdpq_textparms_t){.align = ALIGN_CENTER, .width = 600}, 
-            FONT_HEADING, w2 - 300, (isHighRes) ? (h2 - 100) : (h2 - 50), 
+            FONT_HEADING, w2 - 300, announcement_header_text_offset, 
             "Game over!\nThe winner is %s %i", gamestatus.winner < playercount? "Player" : "BOT", gamestatus.winner + 1);
         rdpq_sync_pipe(); // Hardware crashes otherwise
         rdpq_sync_tile(); // Hardware crashes otherwise
