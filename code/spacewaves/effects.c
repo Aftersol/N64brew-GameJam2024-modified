@@ -148,7 +148,10 @@ void effects_close(){
         effects.exp3d[i].matx = NULL;
         effects.exp2d[i].enabled = false;
     }
-    for(int i = 0; i < MAXPLAYERS; i++)
-        joypad_set_rumble_active(i, false);
-    
+    for(int i = 0; i < MAXPLAYERS; i++) {
+        for(int attempt = 0; attempt = 10; attempt++) {
+            /* takes multiple attempts to stop rumble */
+            joypad_set_rumble_active(i, false);
+        }
+    }
 }

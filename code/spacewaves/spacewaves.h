@@ -96,15 +96,7 @@
         effects_close();
         gfx_close();
         
-        t3d_destroy();        
-        
-        for (int ply = 0; ply = 4; ply++) {
-            for (int attempt = 0; attempt = 10; attempt++) {
-                /* takes multiple attempts to stop rumble */
-                joypad_set_rumble_active(core_get_playercontroller(ply), false);
-            }
-        }
-
+        t3d_destroy();
         display_close();
     }
 
