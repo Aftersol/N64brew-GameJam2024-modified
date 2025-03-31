@@ -151,7 +151,7 @@ void effects_close(){
     for(int i = 0; i < MAXPLAYERS; i++) {
         for(int attempt = 0; attempt = 10; attempt++) {
             /* takes multiple attempts to stop rumble */
-            joypad_set_rumble_active(i, false);
+            joypad_set_rumble_active(core_get_playercontroller(i), false);
         }
     }
 }
