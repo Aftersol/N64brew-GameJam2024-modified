@@ -116,7 +116,7 @@ void bonus_draw(){
                 t3d_viewport_calc_viewspace_pos(&viewport, &viewpos, &worldpos);
                 xpos = viewpos.v[0]; ypos = viewpos.v[1] - ((isHighRes) ? 16 : 8);
                 if(gfx_pos_within_viewport(xpos, ypos) && t3d_vec3_dot(&station.forward, &worldpos) > 0.0f){
-                    rdpq_sprite_blit(sprites[spr_ui_bonus1 + bonus->type], xpos, ypos, &(rdpq_blitparms_t){.cx = 16, .scale_x = sin(bonus->time * 3.0) * (isHighRes) ? 1.0 : 0.5, .scale_y = (isHighRes) ? 1.0 : 0.5});
+                    rdpq_sprite_blit(sprites[spr_ui_bonus1 + bonus->type], xpos, ypos, &(rdpq_blitparms_t){.cx = 16, .scale_x = sin(bonus->time * 3.0) * ((isHighRes) ? 1.0 : 0.5), .scale_y = (isHighRes) ? 1.0 : 0.5});
                 }
         }
     }
