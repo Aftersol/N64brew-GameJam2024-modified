@@ -67,7 +67,7 @@ ASSETS_LIST += \
 $(FILESYSTEM_DIR)/spacewaves/JupiteroidBoldItalic%font64 $(FILESYSTEM_DIR)/spacewaves/JupiteroidBoldItalic_half%font64: $(ASSETS_DIR)/spacewaves/JupiteroidBoldItalic.ttf
 	@mkdir -p $(dir $@)
 	@echo "    [SPACEWAVES FONT] $@"
-	$(N64_MKFONT) --size 12 -o $(dir $@) "$<"
+	$(N64_MKFONT) --size 8 -o $(dir $@) "$<"
 	mv "$(dir $@)/JupiteroidBoldItalic.font64" $(FILESYSTEM_DIR)/spacewaves/JupiteroidBoldItalic_half.font64
 	@echo "    [SPACEWAVES FONT] $@"
 	$(N64_MKFONT) --size 16 -o $(dir $@) "$<"
@@ -79,7 +79,7 @@ $(FILESYSTEM_DIR)/spacewaves/JupiteroidBoldItalic%font64 $(FILESYSTEM_DIR)/space
 $(FILESYSTEM_DIR)/spacewaves/Jupiteroid_half%font64 $(FILESYSTEM_DIR)/spacewaves/Jupiteroid%font64: $(ASSETS_DIR)/spacewaves/Jupiteroid.ttf
 	@mkdir -p $(dir $@)
 	@echo "    [SPACEWAVES FONT] $@"
-	$(N64_MKFONT) --size 24 -o $(dir $@) "$<"
+	$(N64_MKFONT) --size 16 -o $(dir $@) "$<"
 	mv "$(dir $@)/Jupiteroid.font64" $(FILESYSTEM_DIR)/spacewaves/Jupiteroid_half.font64
 	@echo "    [SPACEWAVES FONT] $@"
 	$(N64_MKFONT) --size 32 -o $(dir $@) "$<"
