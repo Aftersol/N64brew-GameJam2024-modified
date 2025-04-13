@@ -1,6 +1,7 @@
 #include "world.h"
 #include "gamestatus.h"
 #include "gfx.h"
+#include "isHighRes.h"
 
 WorldDef world;
 
@@ -222,6 +223,11 @@ void world_draw_lensflare(){
       //uint16_t* pixels = zbuffer->buffer;
       //uint16_t depth = pixels[(int)ypos * zbuffer->width + (int)xpos];
       //if(depth > 0x8000){
+        rdpq_blitparms_t lensFlareHalfSizedParms = { 
+          .scale_x = 0.5,
+          .scale_y = 0.5
+        };
+
         rdpq_set_mode_standard();
         rdpq_mode_dithering(dither);
         rdpq_mode_filter(FILTER_BILINEAR);
@@ -229,16 +235,34 @@ void world_draw_lensflare(){
         rdpq_mode_combiner(RDPQ_COMBINER1((0,0,0,PRIM), (PRIM,0,TEX0,0)));
         rdpq_mode_blender(RDPQ_BLENDER_MULTIPLY);
 
-          rdpq_sprite_blit(sprites[12], xpos - (sprites[12]->width / 2), ypos - (sprites[12]->height / 2), NULL);
+
+          if (is_high_res)
+            rdpq_sprite_blit(sprites[spr_lensflare1], xpos - (sprites[spr_lensflare1]->width / 2), ypos - (sprites[spr_lensflare1]->height / 2), NULL);
+          else
+            rdpq_sprite_blit(sprites[spr_lensflare1], xpos - (sprites[spr_lensflare1]->width / 4), ypos - (sprites[spr_lensflare1]->height / 4), &lensFlareHalfSizedParms);
+
           float xpos2 = (display_get_width() - xpos);
           float ypos2 = (display_get_height() - ypos);
-          rdpq_sprite_blit(sprites[13], xpos2 - (sprites[13]->width / 2), ypos2 - (sprites[13]->height / 2), NULL);
+          if (is_high_res)
+            rdpq_sprite_blit(sprites[spr_lensflare2], xpos2 - (sprites[spr_lensflare2]->width / 2), ypos2 - (sprites[spr_lensflare2]->height / 2), NULL);
+          else
+            rdpq_sprite_blit(sprites[spr_lensflare2], xpos2 - (sprites[spr_lensflare2]->width / 4), ypos2 - (sprites[spr_lensflare2]->height / 4), &lensFlareHalfSizedParms);
+
           xpos = (xpos + xpos2) / 2;
           ypos = (ypos + ypos2) / 2;
-          rdpq_sprite_blit(sprites[14], xpos - (sprites[14]->width / 2), ypos - (sprites[14]->height / 2), NULL);
+
+          if (is_high_res)
+            rdpq_sprite_blit(sprites[spr_lensflare3], xpos - (sprites[spr_lensflare3]->width / 2), ypos - (sprites[spr_lensflare3]->height / 2), NULL);
+          else
+            rdpq_sprite_blit(sprites[spr_lensflare3], xpos - (sprites[spr_lensflare3]->width / 4), ypos - (sprites[spr_lensflare3]->height / 4), &lensFlareHalfSizedParms);
+
           xpos = (xpos + xpos2) / 2;
           ypos = (ypos + ypos2) / 2;
-          rdpq_sprite_blit(sprites[14], xpos - (sprites[14]->width / 2), ypos - (sprites[14]->height / 2), NULL);
+
+          if (is_high_res)
+            rdpq_sprite_blit(sprites[spr_lensflare3], xpos - (sprites[spr_lensflare3]->width / 2), ypos - (sprites[spr_lensflare3]->height / 2), NULL);
+          else
+            rdpq_sprite_blit(sprites[spr_lensflare3], xpos - (sprites[spr_lensflare3]->width / 4), ypos - (sprites[spr_lensflare3]->height / 4), &lensFlareHalfSizedParms);
 
         rdpq_mode_antialias(AA_STANDARD);
         rdpq_mode_dithering(dither);

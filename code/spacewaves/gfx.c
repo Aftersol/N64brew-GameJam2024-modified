@@ -9,6 +9,7 @@
 #include "../../minigame.h"
 #include "world.h"
 #include "gfx.h"
+#include "isHighRes.h"
 #include <fmath.h>
 
 color_t uicolor;
@@ -45,6 +46,8 @@ const char *texture_path[SPRITE_COUNT] = {
 
     "rom://spacewaves/ui.crosshair.ia4.sprite",
     "rom://spacewaves/ui.crosshair2.ia4.sprite",
+    "rom://spacewaves/ui.crosshair.small.ia4.sprite",
+    "rom://spacewaves/ui.crosshair2.small.ia4.sprite",
     "rom://spacewaves/ui.target.ia8.sprite",
 
     "rom://spacewaves/exp3d.rgba32.sprite",
@@ -115,7 +118,7 @@ int sound_cur_channels[SOUND_COUNT] = {0};
 
 void gfx_load() {
     
-    if (is_memory_expanded()) {
+    if (is_high_res) {
         font_text = rdpq_font_load("rom://spacewaves/JupiteroidBoldItalic.font64");
         font_header = rdpq_font_load("rom://spacewaves/Jupiteroid.font64");
     } else {

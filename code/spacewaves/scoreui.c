@@ -12,10 +12,9 @@
 #include "gamestatus.h"
 #include "scoreui.h"
 #include "bonus.h"
+#include "isHighRes.h"
 
 int w,h, w2, h2;
-
-bool isHighRes;
 
 const char* targnames[3] = {"Spacecraft", "Asteroid", "Rocket"};
 
@@ -34,7 +33,7 @@ typedef struct targinfo_s{
 targinfo_t targinfo;
 
 inline int userinterface_getscoreoffset(int p) {
-    return (isHighRes) ? (h2 + 40 * p + 40) : (h2 + 20 * p + 20);
+    return (is_high_res) ? (h2 + 40 * p + 40) : (h2 + 20 * p + 20);
 }
 
 void userinterface_drawscores() {
@@ -53,8 +52,8 @@ void userinterface_drawscores() {
 void userinterface_playerdraw(PlyNum player, float hppercent, int points, int rockets, float powerup, float shield){   
     int playercount = core_get_playercount();
     int playernum = (int)player + 1;
-    int offset = ((isHighRes) ? 30 : 15) + player * ((isHighRes) ? 150 : 75);
-    if(playernum > 2) offset = w - ((isHighRes) ? 300 : 150) + (player - 2)*((isHighRes) ? 150 : 75);
+    int offset = ((is_high_res) ? 30 : 15) + player * ((is_high_res) ? 150 : 75);
+    if(playernum > 2) offset = w - ((is_high_res) ? 300 : 150) + (player - 2)*((is_high_res) ? 150 : 75);
 
     rdpq_set_mode_standard();
     rdpq_mode_alphacompare(5);
@@ -65,46 +64,46 @@ void userinterface_playerdraw(PlyNum player, float hppercent, int points, int ro
     if(!(rockets > 0)) rdpq_texture_rectangle_scaled(
         TILE0, 
         offset,
-        ((isHighRes) ? 60 : 30),
-        offset + ((isHighRes) ? 32 : 16), 
-        ((isHighRes) ? 60 + 32 : 30 + 16), 
+        ((is_high_res) ? 60 : 30),
+        offset + ((is_high_res) ? 32 : 16), 
+        ((is_high_res) ? 60 + 32 : 30 + 16), 
         0, 0, 
         32, 32
     );
 
     if(!(powerup > 0)) rdpq_texture_rectangle_scaled(
         TILE0, 
-        offset + ((isHighRes) ? 40 : 20), 
-        ((isHighRes) ? 60 : 30), 
-        offset + ((isHighRes) ? 32 + 40 : 16 + 20), 
-        ((isHighRes) ? 60 + 32 : 30 + 16), 
+        offset + ((is_high_res) ? 40 : 20), 
+        ((is_high_res) ? 60 : 30), 
+        offset + ((is_high_res) ? 32 + 40 : 16 + 20), 
+        ((is_high_res) ? 60 + 32 : 30 + 16), 
         0, 0, 
         32, 32
     );
     if(!(shield > 0)) rdpq_texture_rectangle_scaled(
         TILE0, 
-        offset + ((isHighRes) ? 80 : 40)
-        , ((isHighRes) ? 60 : 30), 
-        offset + ((isHighRes) ? 32 + 80 : 16 + 40), 
-        ((isHighRes) ? 60 + 32 : 30 + 16), 
+        offset + ((is_high_res) ? 80 : 40)
+        , ((is_high_res) ? 60 : 30), 
+        offset + ((is_high_res) ? 32 + 80 : 16 + 40), 
+        ((is_high_res) ? 60 + 32 : 30 + 16), 
         0, 0, 
         32, 32
     );
     
     rdpq_blitparms_t spriteParms = { 
-        .scale_x = (isHighRes) ? 1.0 : 0.5,
-        .scale_y = (isHighRes) ? 1.0 : 0.5
+        .scale_x = (is_high_res) ? 1.0 : 0.5,
+        .scale_y = (is_high_res) ? 1.0 : 0.5
     };
     
-    if(rockets > 0) rdpq_sprite_blit(sprites[spr_ui_bonus1], offset, ((isHighRes) ? 60 : 30), &spriteParms);
-    if(powerup > 0) rdpq_sprite_blit(sprites[spr_ui_bonus2], offset + ((isHighRes) ? 40 : 20), ((isHighRes) ? 60 : 30), &spriteParms);
-    if(shield > 0)  rdpq_sprite_blit(sprites[spr_ui_bonus3], offset + ((isHighRes) ? 80 : 40), ((isHighRes) ? 60 : 30), &spriteParms);
+    if(rockets > 0) rdpq_sprite_blit(sprites[spr_ui_bonus1], offset, ((is_high_res) ? 60 : 30), &spriteParms);
+    if(powerup > 0) rdpq_sprite_blit(sprites[spr_ui_bonus2], offset + ((is_high_res) ? 40 : 20), ((is_high_res) ? 60 : 30), &spriteParms);
+    if(shield > 0)  rdpq_sprite_blit(sprites[spr_ui_bonus3], offset + ((is_high_res) ? 80 : 40), ((is_high_res) ? 60 : 30), &spriteParms);
 
-    rdpq_text_printf(NULL, FONT_TEXT, offset, ((isHighRes) ? 30 : 15), "%s %i - %.1f%%", playernum <= playercount? "PLAYER" : "BOT", playernum, hppercent);
-    rdpq_text_printf(NULL, FONT_TEXT, offset, ((isHighRes) ? 50 : 25), "%06i PTS", points);
-    rdpq_text_printf(NULL, FONT_TEXT, offset + ((isHighRes) ? 20 : 10), ((isHighRes) ? 90 : 45), "%i", rockets);
-    rdpq_text_printf(NULL, FONT_TEXT, offset + ((isHighRes) ? 60 : 30), ((isHighRes) ? 90 : 45), "%.1f", powerup);
-    rdpq_text_printf(NULL, FONT_TEXT, offset + ((isHighRes) ? 100 : 50), ((isHighRes) ? 90 : 45), "%.1f", shield);
+    rdpq_text_printf(NULL, FONT_TEXT, offset, ((is_high_res) ? 30 : 15), "%s %i - %.1f%%", playernum <= playercount? "PLAYER" : "BOT", playernum, hppercent);
+    rdpq_text_printf(NULL, FONT_TEXT, offset, ((is_high_res) ? 50 : 25), "%06i PTS", points);
+    rdpq_text_printf(NULL, FONT_TEXT, offset + ((is_high_res) ? 20 : 10), ((is_high_res) ? 90 : 45), "%i", rockets);
+    rdpq_text_printf(NULL, FONT_TEXT, offset + ((is_high_res) ? 60 : 30), ((is_high_res) ? 90 : 45), "%.1f", powerup);
+    rdpq_text_printf(NULL, FONT_TEXT, offset + ((is_high_res) ? 100 : 50), ((is_high_res) ? 90 : 45), "%.1f", shield);
     
 }
 
@@ -112,7 +111,7 @@ void userinterface_draw(){
     T3DVec3 viewpos, worldpos;
     float xpos, ypos;
     int playercount = core_get_playercount();
-    isHighRes = is_memory_expanded();
+    is_high_res = is_memory_expanded();
 
     w = display_get_width();
     h = display_get_height();
@@ -145,11 +144,11 @@ void userinterface_draw(){
         rdpq_mode_alphacompare(5);
 
         /* Draw crosshair */
-        rdpq_sprite_blit(sprites[spr_ui_crosshair], (w - sprites[spr_ui_crosshair]->width) / 2, (h - sprites[spr_ui_crosshair]->height) / 2, NULL);
+        rdpq_sprite_blit(sprites[(is_high_res) ? spr_ui_crosshair : spr_ui_crosshair_small], (w - sprites[(is_high_res) ? spr_ui_crosshair : spr_ui_crosshair_small]->width) / 2, (h - sprites[(is_high_res) ? spr_ui_crosshair : spr_ui_crosshair_small]->height) / 2, NULL);
         worldpos = gfx_worldpos_from_polar(station.pitch, station.yaw, 1000.0f);
         t3d_viewport_calc_viewspace_pos(&viewport, &viewpos, &worldpos);
         xpos = viewpos.v[0]; ypos = viewpos.v[1];
-        rdpq_sprite_blit(sprites[spr_ui_crosshair2], (xpos - sprites[spr_ui_crosshair2]->width / 2), ypos - (sprites[spr_ui_crosshair2]->height / 2), NULL);
+        rdpq_sprite_blit(sprites[(is_high_res) ? spr_ui_crosshair2 : spr_ui_crosshair2_small], (xpos - sprites[(is_high_res) ? spr_ui_crosshair2 : spr_ui_crosshair2_small]->width / 2), ypos - (sprites[(is_high_res) ? spr_ui_crosshair2 : spr_ui_crosshair2_small]->height / 2), NULL);
 
         surface_t target = sprite_get_pixels(sprites[spr_ui_target]);
         targinfo.enabled = false;
@@ -157,15 +156,15 @@ void userinterface_draw(){
         rdpq_set_env_color(RGBA32(0xFF,0xFF,0xFF,0xAF));
         rdpq_mode_combiner(RDPQ_COMBINER1((PRIM,ENV,TEX0,ENV),(TEX0,0,ENV,0)));
         rdpq_mode_blender(RDPQ_BLENDER_MULTIPLY);
-        float Xb = sprites[spr_ui_target]->width / ((isHighRes) ? 2 : 4);
-        float Yb = sprites[spr_ui_target]->height / ((isHighRes) ? 2 : 4);
+        float Xb = sprites[spr_ui_target]->width / ((is_high_res) ? 2 : 4);
+        float Yb = sprites[spr_ui_target]->height / ((is_high_res) ? 2 : 4);
 
 
         /*
             Viewport Weapons GUI
         */
-        int viewportClampLimit = isHighRes ? 180 : 90;
-        int reticleTolerance = isHighRes ? 30 : 15;
+        int viewportClampLimit = is_high_res ? 180 : 90;
+        int reticleTolerance = is_high_res ? 30 : 15;
 
         rdpq_set_prim_color(RGBA32(255,0,255,255));
         for(int b = 0; b < MAX_BONUSES; b++)
@@ -262,7 +261,7 @@ void userinterface_draw(){
             rdpq_sync_tile(); // Hardware crashes otherwise
 
             rdpq_text_printf(&(rdpq_textparms_t){.align = ALIGN_CENTER, .width = 600}, 
-            FONT_TEXT, w2 - 300, h - (isHighRes ? 40 : 20), 
+            FONT_TEXT, w2 - 300, h - (is_high_res ? 40 : 20), 
             "Target in sight. Type: %s, Distance: %.2f, Health: %.2f", 
             targnames[targinfo.type], targinfo.distance, targinfo.hp);
 
@@ -274,7 +273,7 @@ void userinterface_draw(){
             Radar GUI
         */
 
-        float radarScale = (isHighRes) ? 1.0f : 0.5f;
+        float radarScale = (is_high_res) ? 1.0f : 0.5f;
 
         rdpq_set_mode_standard();
         rdpq_mode_combiner(RDPQ_COMBINER_FLAT);
@@ -285,10 +284,10 @@ void userinterface_draw(){
 
         /* Draw radar background color */
         rdpq_fill_rectangle(
-            (isHighRes) ? 500 : 250,
-            (isHighRes) ? 340 : 170,
-            (isHighRes) ? 628 : 314,
-            (isHighRes) ? 468 : 234 
+            (is_high_res) ? 500 : 250,
+            (is_high_res) ? 340 : 170,
+            (is_high_res) ? 628 : 314,
+            (is_high_res) ? 468 : 234 
         );
         
         for(int i = 0; i < 3; i++){
@@ -347,7 +346,7 @@ void userinterface_draw(){
     }
 
     // text stuff
-    int announcement_header_text_offset = isHighRes ? (h2 - 100) : (h2 - 50);
+    int announcement_header_text_offset = is_high_res ? (h2 - 100) : (h2 - 50);
     if(gamestatus.state != GAMESTATE_PLAY){
         rdpq_set_mode_standard();
         rdpq_mode_combiner(RDPQ_COMBINER_FLAT);
@@ -365,7 +364,7 @@ void userinterface_draw(){
 
         // print time
         rdpq_text_printf(&(rdpq_textparms_t){.align = ALIGN_CENTER, .width = 600}, 
-        FONT_TEXT, w2 - 300, h - (isHighRes ? 60 : 30), 
+        FONT_TEXT, w2 - 300, h - (is_high_res ? 60 : 30), 
         "%02i:%02i", (int)gamestatus.statetime / 60, (int)gamestatus.statetime % 60);
         rdpq_sync_pipe(); // Hardware crashes otherwise
         rdpq_sync_tile(); // Hardware crashes otherwise
@@ -401,7 +400,7 @@ void userinterface_draw(){
         rdpq_sync_pipe(); // Hardware crashes otherwise
         rdpq_sync_tile(); // Hardware crashes otherwise
         rdpq_text_printf(&(rdpq_textparms_t){.align = ALIGN_CENTER, .width = 600}, 
-            FONT_TEXT, w2 - 300, h - (isHighRes ? 40 : 20), 
+            FONT_TEXT, w2 - 300, h - (is_high_res ? 40 : 20), 
             "Now playing: %s", music_credits[currentmusicindex]);
         }
     }

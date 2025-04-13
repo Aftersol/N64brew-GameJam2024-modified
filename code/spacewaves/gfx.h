@@ -15,7 +15,7 @@
 #define FONT_TEXT           1
 #define FONT_HEADING        2
 #define STYLE_DEFAULT       0
-#define SPRITE_COUNT	    30
+#define SPRITE_COUNT	    32
 #define MODEL_COUNT         9
 #define MUSIC_COUNT         4
 #define SOUND_COUNT         13
@@ -73,6 +73,8 @@ enum spritenames_t{
     spr_ui_bonus4,
 	spr_ui_crosshair,
     spr_ui_crosshair2,
+    spr_ui_crosshair_small,
+    spr_ui_crosshair2_small,
     spr_ui_target,
     spr_explosion
 };

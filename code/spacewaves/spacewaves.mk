@@ -25,6 +25,8 @@ ASSETS_LIST += \
     filesystem/spacewaves/ui.bonus4.rgba32.sprite \
     filesystem/spacewaves/ui.crosshair.ia4.sprite \
     filesystem/spacewaves/ui.crosshair2.ia4.sprite \
+	filesystem/spacewaves/ui.crosshair.small.ia4.sprite \
+    filesystem/spacewaves/ui.crosshair2.small.ia4.sprite \
     filesystem/spacewaves/ui.target.ia8.sprite \
 	filesystem/spacewaves/exp3d.rgba32.sprite \
     filesystem/spacewaves/space.t3dm \

@@ -11,6 +11,7 @@
 #include "gamestatus.h"
 #include "gfx.h"
 #include "effects.h"
+#include "isHighRes.h"
 
 effectdata_t effects;
 
@@ -137,7 +138,12 @@ void effects_draw(){
             if(index <= 0) index = 0;
 
             if(gfx_pos_within_viewport(xpos, ypos))
-                rdpq_sprite_blit(sprites[spr_exp], xpos, ypos, &(rdpq_blitparms_t){.cx = 16, .cy = 16, .s0 = (index % 4)*32, (index / 4)*32, .width = 32, .height = 32});
+                rdpq_sprite_blit(sprites[spr_exp], xpos, ypos, &(rdpq_blitparms_t){
+                    .cx = 16, .cy = 16,
+                    .scale_x = ((is_high_res) ? 1.0 : 0.5), .scale_y = ((is_high_res) ? 1.0 : 0.5),
+                    .s0 = (index % 4)*32, (index / 4)*32,
+                    .width = 32, .height = 32
+                });
         }
 }
 
@@ -149,8 +155,7 @@ void effects_close(){
         effects.exp2d[i].enabled = false;
     }
     for(int i = 0; i < MAXPLAYERS; i++) {
-        for(int attempt = 0; attempt = 10; attempt++) {
-            /* takes multiple attempts to stop rumble */
+        for (int attempt = 0; attempt < 10; attempt++) {
             joypad_set_rumble_active(core_get_playercontroller(i), false);
         }
     }
