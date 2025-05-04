@@ -2,7 +2,7 @@
 #define GAMEJAM2024_TITLE_H
 
     /***************************************************************
-              You have no reason to be incuding this file
+              You have no reason to be including this file
     ***************************************************************/
 
     extern void titlescreen_init();
