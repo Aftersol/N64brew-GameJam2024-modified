@@ -78,8 +78,6 @@ ASSETS_LIST += \
 	filesystem/snowmen/catherine_green.t3dm \
 	filesystem/snowmen/catherine_yellow.t3dm \
 	filesystem/snowmen/base_star.t3dm \
-	# filesystem/snowmen/christmas_day.xm64 \
-	
     filesystem/snowmen/jingle_bells.wav64 \
 	filesystem/snowmen/Punch__007.wav64 \
 	filesystem/snowmen/swing.wav64 \
