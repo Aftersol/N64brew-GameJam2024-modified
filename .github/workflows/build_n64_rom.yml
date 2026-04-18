@@ -61,6 +61,7 @@ jobs:
           make install
           make tools-install
           cd $REAL_DIR
+          make -C tiny3d
           make -C tiny3d install
           make -C tiny3d/tools/gltf_importer
           make -C tiny3d/tools/gltf_importer install
