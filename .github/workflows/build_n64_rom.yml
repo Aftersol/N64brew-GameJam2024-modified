@@ -55,7 +55,8 @@ jobs:
         run: |
           REAL_DIR=`pwd`
           cd /tmp
-          git clone -b opengl https://github.com/DragonMinded/libdragon.git --depth=1
+          git clone -b preview https://github.com/DragonMinded/libdragon.git --depth=1
+          git clone -b main https://github.com/HailToDodongo/tiny3d.git --depth=1
           cd libdragon
           make install
           make tools-install
