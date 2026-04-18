@@ -80,7 +80,7 @@ ASSETS_LIST += \
 	filesystem/snowmen/base_star.t3dm \
 	# filesystem/snowmen/christmas_day.xm64 \
 	
-	filesystem/snowmen/jingle_bells.wav64 \
+    filesystem/snowmen/jingle_bells.wav64 \
 	filesystem/snowmen/Punch__007.wav64 \
 	filesystem/snowmen/swing.wav64 \
 	filesystem/snowmen/chainmail1.wav64 \
