@@ -65,7 +65,7 @@ CulledModel::CulledModel(const char *modelPath)
         layerId = it.object->name[1] - '0';
       }
     }
-    it.object->_padding[0] = layerId; // @TODO: add generic user-defined IDs to t3d struct?
+    it.object->userValue0 = layerId;
   }
 
   mapMatFP = (T3DMat4FP*)malloc_uncached(sizeof(T3DMat4FP));
@@ -100,7 +100,7 @@ void CulledModel::update(const T3DVec3 &camPos) {
   auto it = t3d_model_iter_create(model, T3D_CHUNK_TYPE_OBJECT);
   while(t3d_model_iter_next(&it)) {
     if(it.object->isVisible) {
-      uint8_t layerId = it.object->_padding[0];
+      uint8_t layerId = it.object->userValue0;
       layerObj[layerId][layerCount[layerId]++] = it.object;
       it.object->isVisible = false;
 

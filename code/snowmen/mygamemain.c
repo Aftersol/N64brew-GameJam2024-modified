@@ -613,7 +613,6 @@ void AIPlayerLoop(PlayerStruct* playerStruct, int seed, float deltaTime)
                 seed++;
                 switch(randFlip)
                 {
-                    debugf(">>>>>>>>>>>>>>>>>> a\n");
                     case 0://snowball
                         debugf(">>>>>>>>>>>>>>>>>> b\n");
                         debugf("        Before: %d\n", playerStruct->AIGoalType);
