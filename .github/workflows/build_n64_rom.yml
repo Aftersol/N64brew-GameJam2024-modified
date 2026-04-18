@@ -60,11 +60,8 @@ jobs:
           cd libdragon
           make install -j 4
           make tools-install -j 4
-          cd $REAL_DIR
           cd /tmp/tiny3d
-          make install -j 4
-          make -C tiny3d/tools/gltf_importer -j 4
-          make -C tiny3d/tools/gltf_importer install -j 4
+          ./build.sh
           cd $REAL_DIR
           make -j 4
           ls
